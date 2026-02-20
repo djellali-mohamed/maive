@@ -17,8 +17,9 @@ const seedData = async () => {
   try {
     // Connect to database
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/maive');
-    console.log('📦 Connected to MongoDB');
+    console.log('✅ Successfully connected to MongoDB Atlas');
     
+    console.log('📍 Current Database:', mongoose.connection.name);
     // Clear existing data
     await User.deleteMany({});
     await Category.deleteMany({});
@@ -303,7 +304,15 @@ const seedData = async () => {
     
     process.exit(0);
   } catch (error) {
-    console.error('❌ Seeding error:', error);
+    console.error('❌ SEEDING FAILED!');
+    console.error('Error Name:', error.name);
+    console.error('Error Message:', error.message);
+    if (error.message.includes('IP not whitelisted') || error.message.includes('connection timed out')) {
+      console.error('👉 ACTION REQUIRED: Check your MongoDB Atlas "Network Access" settings and make sure 0.0.0.0/0 is added.');
+    }
+    if (error.message.includes('Authentication failed')) {
+      console.error('👉 ACTION REQUIRED: Check your password in the MONGODB_URI on Render.');
+    }
     process.exit(1);
   }
 };
