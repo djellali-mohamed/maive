@@ -1,0 +1,11 @@
+{
+  "name": "maive-platform",
+  "version": "1.0.0",
+  "description": "MAIVÉ Luxury Handbags Platfrom",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "install-backend": "cd backend && npm install",
+    "build": "npm run install-backend"
+  }
+}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAIVÉ - Connexion Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=DM+Mono:wght@300&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --cream: #f7f3ee;
+            --ink: #1a1410;
+            --camel: #b8986a;
+            --line: rgba(26, 20, 16, 0.1);
+            --expo: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--cream);
+            color: var(--ink);
+            font-family: "Cormorant Garamond", serif;
+            font-style: italic;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 60px 40px;
+            background: white;
+            border: 1px solid var(--line);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.03);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        .logo {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 28px;
+            letter-spacing: 0.4em;
+            margin-bottom: 40px;
+            display: block;
+            text-decoration: none;
+            color: var(--ink);
+            font-style: normal;
+        }
+        .f-grp {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            font-family: "DM Mono", monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 8px;
+            color: var(--camel);
+        }
+        input {
+            width: 100%;
+            padding: 14px 0;
+            background: none;
+            border: none;
+            border-bottom: 1px solid var(--line);
+            font-family: "DM Sans", sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.4s;
+        }
+        input:focus {
+            border-bottom-color: var(--ink);
+        }
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: var(--ink);
+            color: var(--cream);
+            border: none;
+            font-family: "DM Mono", monospace;
+            font-size: 10px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background 0.4s;
+        }
+        .btn:hover {
+            background: var(--camel);
+        }
+        .err {
+            color: #d9534f;
+            font-size: 11px;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <a href="index.html" class="logo">MAIVÉ</a>
+        <form id="loginForm">
+            <div class="f-grp">
+                <label>Email ID</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="f-grp">
+                <label>Mode de passe</label>
+                <input type="password" id="password" required>
+            </div>
+            <button type="submit" class="btn">Authentification</button>
+            <p id="errorMsg" class="err">Accès refusé. Veuillez vérifier vos identifiants.</p>
+        </form>
+    </div>
+
+    <script>
+        gsap.to(".login-card", { opacity: 1, y: 0, duration: 1.2, ease: "power4.out" });
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            try {
+                const res = await fetch('http://localhost:5000/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const json = await res.json();
+
+                if (json.success && (json.data.user.role === 'admin' || json.data.user.role === 'superadmin')) {
+                    localStorage.setItem('maive_token', json.data.token);
+                    localStorage.setItem('maive_user', JSON.stringify(json.data.user));
+                    window.location.href = 'admin.html';
+                } else {
+                    errorMsg.style.display = 'block';
+                    errorMsg.textContent = json.message || "Accès réservé aux administrateurs.";
+                }
+            } catch (err) {
+                errorMsg.style.display = 'block';
+                errorMsg.textContent = "Erreur de connexion au serveur.";
+            }
+        });
+    </script>
+</body>
+</html>

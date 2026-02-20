@@ -1,0 +1,3255 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MAIVÉ — L'essence de votre renaissance</title>
+    <meta
+      name="description"
+      content="MAIVÉ — L'essence de votre renaissance. Maroquinerie de luxe, sacs d'exception en cuir pleine fleur. Artisanat d'excellence et design intemporel."
+    />
+    <meta
+      name="keywords"
+      content="MAIVÉ, maroquinerie, luxe, sacs à main, cuir pleine fleur, Algérie, mode, élégance"
+    />
+    <meta
+      property="og:title"
+      content="MAIVÉ — L'essence de votre renaissance"
+    />
+    <meta
+      property="og:description"
+      content="Découvrez notre collection de sacs d'exception. Artisanat d'excellence pour celles qui possèdent leur style."
+    />
+    <meta property="og:image" content="images/hero-poster.jpg" />
+    <meta property="og:url" content="https://maive-luxury.com" />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --ink: #1a1410;
+        --beige: #c9b99a;
+        --camel: #b8986a;
+        --cream: #f7f3ee;
+        --cream2: #ede8df;
+        --muted: #8a8078;
+        --line: rgba(201, 185, 154, 0.2);
+        --line2: rgba(201, 185, 154, 0.5);
+        --expo: cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      /* LOADER */
+      #loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9000;
+        background: var(--ink);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+      .ld-logo {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 32px;
+        font-weight: 300;
+        letter-spacing: 0.5em;
+        color: var(--beige);
+        clip-path: inset(0 100% 0 0);
+      }
+      .ld-bar-wrap {
+        width: 120px;
+        height: 1px;
+        background: rgba(201, 185, 154, 0.18);
+      }
+      .ld-bar {
+        height: 100%;
+        width: 0;
+        background: var(--camel);
+        transition: width 0.05s linear;
+      }
+      /* CURSOR */
+      body {
+        cursor: none;
+      }
+      #c1,
+      #c2 {
+        position: fixed;
+        top: 0;
+        left: 0;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9500;
+        transform: translate(-50%, -50%);
+      }
+      #c1 {
+        width: 7px;
+        height: 7px;
+        background: var(--camel);
+      }
+      #c2 {
+        width: 38px;
+        height: 38px;
+        border: 1px solid rgba(184, 152, 106, 0.4);
+        background: transparent;
+        transition:
+          width 0.3s var(--expo),
+          height 0.3s var(--expo),
+          border-color 0.3s;
+      }
+      .ch #c2 {
+        width: 56px;
+        height: 56px;
+        border-color: var(--camel);
+      }
+      .ch #c1 {
+        transform: translate(-50%, -50%) scale(0);
+      }
+      /* GRAIN */
+      .grain {
+        position: fixed;
+        inset: 0;
+        z-index: 8999;
+        pointer-events: none;
+        opacity: 0.026;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-size: 200px 200px;
+        animation: gs 8s steps(10) infinite;
+      }
+      @keyframes gs {
+        0% {
+          background-position: 0 0;
+        }
+        20% {
+          background-position: -15% 5%;
+        }
+        40% {
+          background-position: 20% 10%;
+        }
+        60% {
+          background-position: 15% -5%;
+        }
+        80% {
+          background-position: 3% 20%;
+        }
+        100% {
+          background-position: 0 0;
+        }
+      }
+      html {
+        overflow-x: hidden;
+      }
+      body {
+        font-family: "Cormorant Garamond", serif;
+        font-style: italic;
+        background: var(--cream);
+        color: var(--ink);
+      }
+
+      /* ===== ELEGANT HEADER (FIXED) ===== */
+      header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 600;
+        transition: all 0.4s var(--expo);
+      }
+      header .hi {
+        height: 70px;
+        padding: 0 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: transparent;
+        border-bottom: 1px solid transparent;
+        transition: all 0.4s var(--expo);
+      }
+      header.sc .hi {
+        height: 60px;
+        background: rgba(247, 243, 238, 0.95);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .hl {
+        display: flex;
+        align-items: center;
+        gap: 32px;
+      }
+      .hb {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: none;
+        border: none;
+        cursor: none;
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--ink);
+        transition: color 0.3s;
+      }
+      header.sc .hb {
+        color: var(--muted);
+      }
+      .hb:hover {
+        color: var(--camel);
+      }
+      .hb svg {
+        width: 18px;
+        height: 18px;
+        stroke-width: 1.2;
+      }
+
+      .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        text-decoration: none;
+        text-align: center;
+      }
+      .lm {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 24px;
+        font-weight: 300;
+        letter-spacing: 0.55em;
+        color: var(--ink);
+        display: block;
+        transition: letter-spacing 0.5s var(--expo);
+        font-style: normal; /* Keep brand name normal */
+      }
+      .logo:hover .lm {
+        letter-spacing: 0.7em;
+      }
+      .ls {
+        font-family: "DM Mono", monospace;
+        font-size: 6px;
+        letter-spacing: 0.22em;
+        color: var(--camel);
+        display: block;
+        margin-top: 4px;
+      }
+
+      .hr2 {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+      .ib {
+        background: none;
+        border: none;
+        cursor: none;
+        color: var(--ink);
+        transition: color 0.3s;
+        position: relative;
+      }
+      header.sc .ib {
+        color: var(--muted);
+      }
+      .ib:hover {
+        color: var(--camel);
+      }
+      .ib svg {
+        width: 20px;
+        height: 20px;
+        stroke-width: 1.2;
+      }
+
+      .cart-btn {
+        position: relative;
+      }
+      .cart-count {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        width: 18px;
+        height: 18px;
+        background: var(--camel);
+        color: var(--cream);
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        font-weight: 500;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: scale(0);
+        transition: all 0.3s var(--expo);
+      }
+      .cart-count.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      .wa {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--ink);
+        color: var(--cream);
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        padding: 12px 24px;
+        text-decoration: none;
+        border: none;
+        cursor: none;
+        transition: all 0.4s var(--expo);
+      }
+      .wa:hover {
+        background: var(--camel);
+      }
+      .wa svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      /* MARQUEE */
+      .mq-wrap {
+        background: var(--ink);
+        overflow: hidden;
+        padding: 10px 0;
+        margin-top: 70px;
+        transition: margin-top 0.4s var(--expo);
+      }
+      header.sc + .mq-wrap {
+        margin-top: 60px;
+      }
+      .mq-track {
+        display: flex;
+        width: max-content;
+        will-change: transform;
+      }
+      .mq-item {
+        font-family: "DM Mono", monospace;
+        font-size: 7.5px;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--camel);
+        padding: 0 30px;
+        white-space: nowrap;
+      }
+      .mq-sep {
+        color: rgba(201, 185, 154, 0.3);
+        padding: 0 6px;
+      }
+
+      /* ===== VIDEO HERO SECTION ===== */
+      .hero-video-section {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        background: var(--ink);
+      }
+      .hero-video-container {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 1.2s ease;
+      }
+      .hero-video.loaded {
+        opacity: 1;
+      }
+      .hero-video-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          rgba(26, 20, 16, 0.35) 0%,
+          rgba(26, 20, 16, 0.15) 50%,
+          rgba(26, 20, 16, 0.45) 100%
+        );
+        z-index: 2;
+      }
+      .hero-video-vignette {
+        position: absolute;
+        inset: 0;
+        box-shadow: inset 0 0 200px rgba(26, 20, 16, 0.5);
+        z-index: 3;
+        pointer-events: none;
+      }
+      .hero-video-content {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 20px;
+      }
+      .hero-video-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: var(--beige);
+        margin-bottom: 28px;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      .hero-video-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(44px, 7vw, 80px);
+        font-weight: 300;
+        letter-spacing: 0.1em;
+        color: var(--cream);
+        line-height: 1.15;
+        margin-bottom: 18px;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      .hero-video-title em {
+        font-style: italic;
+        color: var(--beige);
+        letter-spacing: 0.06em;
+      }
+      .hero-video-subtitle {
+        font-family: "DM Sans", sans-serif;
+        font-size: clamp(13px, 1.3vw, 16px);
+        font-weight: 300;
+        letter-spacing: 0.12em;
+        color: rgba(247, 243, 238, 0.85);
+        margin-bottom: 52px;
+        max-width: 520px;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      .hero-video-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        position: relative;
+        overflow: hidden;
+        background: transparent;
+        color: var(--cream);
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        padding: 18px 44px;
+        text-decoration: none;
+        border: 1px solid rgba(201, 185, 154, 0.5);
+        cursor: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s var(--expo);
+      }
+      .hero-video-cta::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--camel);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.5s var(--expo);
+      }
+      .hero-video-cta:hover::before {
+        transform: scaleX(1);
+      }
+      .hero-video-cta:hover {
+        border-color: var(--camel);
+      }
+      .hero-video-cta span {
+        position: relative;
+        z-index: 1;
+      }
+      .hero-video-cta svg {
+        width: 16px;
+        height: 16px;
+        stroke-width: 1.5;
+        position: relative;
+        z-index: 1;
+        transition: transform 0.3s;
+      }
+      .hero-video-cta:hover svg {
+        transform: translateX(4px);
+      }
+      .hero-video-scroll {
+        position: absolute;
+        bottom: 45px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        opacity: 0;
+      }
+      .hero-scroll-line {
+        width: 1px;
+        height: 55px;
+        background: linear-gradient(to bottom, var(--beige), transparent);
+        animation: scrollPulse 2.5s ease-in-out infinite;
+      }
+      .hero-scroll-text {
+        font-family: "DM Mono", monospace;
+        font-size: 7px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--beige);
+      }
+      @keyframes scrollPulse {
+        0%,
+        100% {
+          opacity: 0.35;
+          transform: scaleY(1);
+        }
+        50% {
+          opacity: 0.9;
+          transform: scaleY(1.15);
+        }
+      }
+
+      /* ===== COLLECTION VIDEO SECTION ===== */
+      .collection-video-section {
+        position: relative;
+        width: 100%;
+        height: 80vh;
+        min-height: 600px;
+        overflow: hidden;
+        background: var(--ink);
+      }
+      .collection-video-container {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .collection-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 1s ease;
+      }
+      .collection-video.loaded {
+        opacity: 1;
+      }
+      .collection-video-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to right,
+          rgba(26, 20, 16, 0.65) 0%,
+          rgba(26, 20, 16, 0.25) 50%,
+          rgba(26, 20, 16, 0.55) 100%
+        );
+        z-index: 2;
+      }
+      .collection-video-content {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 20px;
+      }
+      .collection-video-eyebrow {
+        font-family: "DM Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: var(--camel);
+        margin-bottom: 22px;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      .collection-video-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(30px, 4.8vw, 52px);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--cream);
+        line-height: 1.4;
+        margin-bottom: 24px;
+        max-width: 700px;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      .collection-video-subtitle {
+        font-family: "DM Sans", sans-serif;
+        font-size: clamp(12px, 1.15vw, 15px);
+        font-weight: 300;
+        line-height: 1.9;
+        color: rgba(247, 243, 238, 0.75);
+        max-width: 460px;
+        margin-bottom: 44px;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      .collection-video-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        position: relative;
+        overflow: hidden;
+        background: var(--cream);
+        color: var(--ink);
+        font-family: "DM Mono", monospace;
+        font-size: 8.5px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        padding: 16px 38px;
+        text-decoration: none;
+        border: none;
+        cursor: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: color 0.4s;
+      }
+      .collection-video-cta::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--camel);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s var(--expo);
+      }
+      .collection-video-cta:hover::before {
+        transform: scaleX(1);
+      }
+      .collection-video-cta:hover {
+        color: var(--cream);
+      }
+      .collection-video-cta span {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* SEARCH OVERLAY */
+      #searchOverlay {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: rgba(26, 20, 16, 0.98);
+        display: flex;
+        flex-direction: column;
+        padding: 100px 60px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s var(--expo);
+      }
+      #searchOverlay.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .search-box {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+      }
+      #searchInput {
+        width: 100%;
+        background: none;
+        border: none;
+        border-bottom: 1px solid var(--line);
+        padding: 20px 0;
+        font-family: "Cormorant Garamond", serif;
+        font-size: 42px;
+        color: var(--cream);
+        outline: none;
+      }
+      .search-close {
+        position: absolute;
+        top: 40px;
+        right: 60px;
+        background: none;
+        border: none;
+        color: var(--cream);
+        cursor: none;
+      }
+      #searchResults {
+        margin-top: 50px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .search-item {
+        color: var(--cream);
+        text-decoration: none;
+        text-align: center;
+      }
+      .search-item img {
+        width: 100%;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        margin-bottom: 10px;
+      }
+      .search-item p {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        color: var(--beige);
+      }
+
+      /* CAT STRIP */
+      .cat-strip {
+        background: var(--cream2);
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      .cat-row {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+      }
+      .cat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 14px 24px;
+        border-right: 1px solid var(--line);
+        text-decoration: none;
+        cursor: none;
+        position: relative;
+        transition: background 0.3s;
+        overflow: hidden;
+      }
+      .cat-item:last-child {
+        border-right: none;
+      }
+      .cat-item:hover {
+        background: var(--cream);
+      }
+      .cat-item::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%) scaleX(0);
+        width: 24px;
+        height: 2px;
+        background: var(--camel);
+        transition: transform 0.4s var(--expo);
+      }
+      .cat-item:hover::after {
+        transform: translateX(-50%) scaleX(1);
+      }
+      .cat-img {
+        width: 100%;
+        aspect-ratio: 1/1;
+        overflow: hidden;
+        margin-bottom: 14px;
+      }
+      .cat-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s var(--expo);
+      }
+      .cat-item:hover .cat-img img {
+        transform: scale(1.08);
+      }
+      .cat-lbl {
+        font-family: "DM Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+        transition: color 0.3s;
+      }
+      .cat-item:hover .cat-lbl {
+        color: var(--camel);
+      }
+
+      /* COL NAV */
+      .col-nav {
+        background: var(--cream);
+        border-bottom: 1px solid var(--line);
+        position: sticky;
+        top: 60px;
+        z-index: 200;
+      }
+      .cn-t {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 52px;
+      }
+      .cn-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 20px;
+        font-weight: 300;
+        letter-spacing: 0.2em;
+      }
+      .cn-f {
+        display: flex;
+        gap: 32px;
+      }
+      .fb {
+        background: none;
+        border: none;
+        cursor: none;
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--muted);
+        position: relative;
+        padding-bottom: 4px;
+        transition: color 0.3s;
+      }
+      .fb::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 1px;
+        background: var(--camel);
+        transform: translateX(-50%);
+        transition: width 0.4s var(--expo);
+      }
+      .fb.on,
+      .fb:hover {
+        color: var(--ink);
+      }
+      .fb.on::after,
+      .fb:hover::after {
+        width: 100%;
+      }
+      .cn-b {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 52px 14px;
+        border-top: 1px solid var(--line);
+      }
+      .cn-count {
+        font-family: "DM Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .cn-s {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-family: "DM Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .cn-s button {
+        background: none;
+        border: none;
+        cursor: none;
+        font: inherit;
+        letter-spacing: inherit;
+        text-transform: inherit;
+        color: inherit;
+        transition: color 0.25s;
+      }
+      .cn-s button:hover {
+        color: var(--camel);
+      }
+
+      /* FILTER SIDEBAR */
+      #filterSidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 350px;
+        height: 100%;
+        background: var(--cream);
+        z-index: 1100;
+        padding: 80px 40px;
+        transform: translateX(100%);
+        transition: transform 0.6s var(--expo);
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.05);
+      }
+      #filterSidebar.open {
+        transform: translateX(0);
+      }
+      .filter-grp {
+        margin-bottom: 40px;
+      }
+      .filter-title {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 10px;
+      }
+      .filter-opt {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .filter-opt label {
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: none;
+        transition: color 0.3s;
+      }
+      .filter-opt label:hover {
+        color: var(--camel);
+      }
+      .filter-opt input {
+        accent-color: var(--camel);
+      }
+
+      /* GRID */
+      .pgrid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: rgba(201, 185, 154, 0.14);
+      }
+
+      /* CARD */
+      .card {
+        background: var(--cream);
+        cursor: none;
+        position: relative;
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.8s var(--expo),
+          transform 0.8s var(--expo);
+      }
+      .card.vis {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .card:nth-child(1) {
+        transition-delay: 0s;
+      }
+      .card:nth-child(2) {
+        transition-delay: 0.08s;
+      }
+      .card:nth-child(3) {
+        transition-delay: 0.16s;
+      }
+      .card:nth-child(4) {
+        transition-delay: 0.24s;
+      }
+      .card:nth-child(5) {
+        transition-delay: 0.05s;
+      }
+      .card:nth-child(6) {
+        transition-delay: 0.13s;
+      }
+      .card:nth-child(7) {
+        transition-delay: 0.21s;
+      }
+      .card:nth-child(8) {
+        transition-delay: 0.29s;
+      }
+      .ctag {
+        position: absolute;
+        left: 0;
+        z-index: 10;
+        top: 50%;
+        writing-mode: vertical-rl;
+        transform: translateY(-50%) rotate(180deg);
+        font-family: "DM Mono", monospace;
+        font-size: 7px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        padding: 14px 6px;
+      }
+      .tn {
+        background: var(--ink);
+        color: var(--cream);
+      }
+      .te {
+        background: var(--camel);
+        color: var(--cream);
+      }
+
+      /* IMAGE HOVER */
+      .card-img {
+        position: relative;
+        aspect-ratio: 3/4;
+        overflow: hidden;
+        background: var(--cream2);
+      }
+      .ca,
+      .cb {
+        position: absolute;
+        inset: 0;
+      }
+      .ca {
+        z-index: 2;
+        transition: clip-path 0.8s var(--expo);
+        clip-path: inset(0 0 0 0);
+      }
+      .cb {
+        z-index: 1;
+      }
+      .ca img,
+      .cb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.8s var(--expo);
+      }
+      .card:hover .ca {
+        clip-path: inset(0 100% 0 0);
+      }
+      .card:hover .ca img {
+        transform: scale(1.05);
+      }
+      .card:hover .cb img {
+        transform: scale(1.03);
+      }
+      .pill {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        padding-bottom: 20px;
+        z-index: 5;
+        opacity: 0;
+        transform: translateY(10px);
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+      }
+      .card:hover .pill {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .pill-in {
+        background: rgba(247, 243, 238, 0.95);
+        backdrop-filter: blur(10px);
+        color: var(--ink);
+        font-family: "DM Mono", monospace;
+        font-size: 7.5px;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        padding: 10px 24px;
+      }
+
+      /* card info */
+      .ci {
+        padding: 18px 20px 20px;
+        background: var(--cream);
+        border-top: 1px solid var(--line);
+      }
+      .cmat {
+        font-family: "DM Mono", monospace;
+        font-size: 7.5px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--camel);
+        margin-bottom: 5px;
+      }
+      .cname {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 17px;
+        font-weight: 300;
+        color: var(--ink);
+        line-height: 1.3;
+        margin-bottom: 8px;
+        transition: color 0.3s;
+      }
+      .card:hover .cname {
+        color: var(--camel);
+      }
+      .cprice {
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 300;
+      }
+      .csw {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 14px;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.35s var(--expo),
+          opacity 0.35s;
+      }
+      .card:hover .csw {
+        max-height: 32px;
+        opacity: 1;
+      }
+      .sw {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 1px solid var(--line2);
+        cursor: none;
+        transition:
+          transform 0.25s,
+          border-color 0.25s,
+          box-shadow 0.25s;
+        flex-shrink: 0;
+      }
+      .sw:hover,
+      .sw.on {
+        transform: scale(1.4);
+        border-color: var(--camel);
+        box-shadow: 0 0 0 2px var(--camel);
+      }
+      .swl {
+        font-family: "DM Mono", monospace;
+        font-size: 7.5px;
+        color: var(--muted);
+        letter-spacing: 0.12em;
+      }
+
+      /* Quick Add Button */
+      .quick-add {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        z-index: 15;
+        width: 38px;
+        height: 38px;
+        background: rgba(247, 243, 238, 0.95);
+        backdrop-filter: blur(8px);
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: none;
+        opacity: 0;
+        transform: scale(0.8);
+        transition: all 0.35s var(--expo);
+      }
+      .card:hover .quick-add {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .quick-add:hover {
+        background: var(--camel);
+      }
+      .quick-add svg {
+        width: 18px;
+        height: 18px;
+        stroke: var(--ink);
+        stroke-width: 1.5;
+        transition: stroke 0.3s;
+      }
+      .quick-add:hover svg {
+        stroke: var(--cream);
+      }
+
+      /* LOAD MORE */
+      .load-more-wrap {
+        padding: 60px;
+        text-align: center;
+        background: var(--cream);
+        border-top: 1px solid var(--line);
+      }
+      .lmbtn {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--ink);
+        background: none;
+        border: 1px solid var(--beige);
+        padding: 16px 52px;
+        cursor: none;
+        position: relative;
+        overflow: hidden;
+        transition: color 0.4s;
+      }
+      .lmbtn::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--ink);
+        transform: scaleY(0);
+        transform-origin: bottom;
+        transition: transform 0.4s var(--expo);
+      }
+      .lmbtn:hover {
+        color: var(--cream);
+      }
+      .lmbtn:hover::before {
+        transform: scaleY(1);
+      }
+      .lmbtn span {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* STATEMENT */
+      .stmt {
+        background: var(--ink);
+        padding: 120px 52px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+      .stmt-wm {
+        position: absolute;
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(120px, 20vw, 260px);
+        font-weight: 300;
+        color: rgba(201, 185, 154, 0.035);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        white-space: nowrap;
+        pointer-events: none;
+        user-select: none;
+      }
+      .sl {
+        width: 36px;
+        height: 1px;
+        background: var(--camel);
+        margin: 0 auto 40px;
+      }
+      .sq {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(22px, 2.8vw, 34px);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--beige);
+        line-height: 1.75;
+        max-width: 680px;
+        margin: 0 auto 40px;
+        overflow: hidden;
+      }
+      .sq-i {
+        display: block;
+        transform: translateY(100%);
+      }
+      .stag {
+        font-family: "DM Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.36em;
+        text-transform: uppercase;
+        color: var(--camel);
+      }
+
+      /* COMING SOON */
+      .cs {
+        background: var(--cream2);
+        padding: 100px 52px;
+        text-align: center;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+      }
+      .cs-eye {
+        font-family: "DM Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: var(--camel);
+        margin-bottom: 18px;
+      }
+      .cs-t {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(38px, 5vw, 60px);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--ink);
+        margin-bottom: 14px;
+        overflow: hidden;
+      }
+      .cs-ti {
+        display: block;
+        transform: translateY(102%);
+      }
+      .cs-p {
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        color: var(--muted);
+        margin-bottom: 40px;
+        opacity: 0;
+      }
+      .cs-form {
+        display: flex;
+        max-width: 420px;
+        margin: 0 auto;
+        border: 1px solid var(--line2);
+        overflow: hidden;
+      }
+      .cs-inp {
+        flex: 1;
+        height: 50px;
+        background: transparent;
+        border: none;
+        padding: 0 22px;
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--ink);
+        outline: none;
+      }
+      .cs-inp::placeholder {
+        color: var(--muted);
+        font-style: italic;
+      }
+      .cs-sub {
+        height: 50px;
+        padding: 0 26px;
+        background: var(--ink);
+        color: var(--cream);
+        font-family: "DM Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        border: none;
+        cursor: none;
+        transition: background 0.3s;
+      }
+      .cs-sub:hover {
+        background: var(--camel);
+      }
+
+      /* FOOTER */
+      footer {
+        background: var(--ink);
+      }
+      .ft {
+        padding: 50px 52px;
+        border-bottom: 1px solid rgba(201, 185, 154, 0.07);
+      }
+      .ftnl {
+        font-family: "DM Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--camel);
+        margin-bottom: 18px;
+      }
+      .ftf {
+        display: flex;
+        max-width: 460px;
+        border: 1px solid rgba(201, 185, 154, 0.14);
+      }
+      .fti {
+        flex: 1;
+        height: 48px;
+        background: transparent;
+        border: none;
+        padding: 0 20px;
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: rgba(247, 243, 238, 0.7);
+        outline: none;
+      }
+      .fti::placeholder {
+        color: var(--muted);
+      }
+      .fts {
+        height: 48px;
+        padding: 0 24px;
+        background: none;
+        border: none;
+        border-left: 1px solid rgba(201, 185, 154, 0.14);
+        cursor: none;
+        font-family: "DM Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--camel);
+        transition: color 0.3s;
+      }
+      .fts:hover {
+        color: var(--beige);
+      }
+      .ftm {
+        padding: 50px 52px;
+        display: grid;
+        grid-template-columns: 1.8fr 1fr 1fr 1fr;
+        gap: 50px;
+      }
+      .fbn {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 24px;
+        font-weight: 300;
+        letter-spacing: 0.4em;
+        color: var(--beige);
+        margin-bottom: 6px;
+      }
+      .fbs {
+        font-family: "DM Mono", monospace;
+        font-size: 7px;
+        letter-spacing: 0.2em;
+        color: var(--camel);
+        margin-bottom: 26px;
+      }
+      .fso {
+        display: flex;
+        gap: 18px;
+      }
+      .fso a {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: rgba(201, 185, 154, 0.4);
+        text-decoration: none;
+        cursor: none;
+        transition: color 0.3s;
+      }
+      .fso a:hover {
+        color: var(--camel);
+      }
+      .fch {
+        font-family: "DM Mono", monospace;
+        font-size: 8px;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--camel);
+        margin-bottom: 18px;
+      }
+      .fc ul {
+        list-style: none;
+      }
+      .fc li {
+        margin-bottom: 12px;
+      }
+      .fc a {
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        font-weight: 300;
+        color: rgba(201, 185, 154, 0.45);
+        text-decoration: none;
+        cursor: none;
+        transition: color 0.3s;
+      }
+      .fc a:hover {
+        color: var(--beige);
+      }
+      .ftb {
+        padding: 18px 52px;
+        border-top: 1px solid rgba(201, 185, 154, 0.07);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .fcp {
+        font-family: "DM Mono", monospace;
+        font-size: 8px;
+        color: rgba(138, 128, 120, 0.5);
+      }
+
+      /* ===== CART SIDEBAR ===== */
+      .cart-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(26, 20, 16, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 800;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s var(--expo);
+      }
+      .cart-overlay.open {
+        opacity: 1;
+        visibility: visible;
+      }
+      .cart-sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 420px;
+        max-width: 100%;
+        height: 100%;
+        background: var(--cream);
+        z-index: 850;
+        transform: translateX(100%);
+        transition: transform 0.5s var(--expo);
+        display: flex;
+        flex-direction: column;
+      }
+      .cart-sidebar.open {
+        transform: translateX(0);
+      }
+      .cart-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 24px 28px;
+        border-bottom: 1px solid var(--line);
+      }
+      .cart-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 22px;
+        font-weight: 300;
+        letter-spacing: 0.15em;
+        color: var(--ink);
+      }
+      .cart-close {
+        width: 40px;
+        height: 40px;
+        background: none;
+        border: none;
+        cursor: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s;
+      }
+      .cart-close:hover {
+        transform: rotate(90deg);
+      }
+      .cart-close svg {
+        width: 20px;
+        height: 20px;
+        stroke: var(--ink);
+        stroke-width: 1.5;
+      }
+      .cart-items {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px 28px;
+      }
+      .cart-empty {
+        text-align: center;
+        padding: 60px 20px;
+      }
+      .cart-empty svg {
+        width: 60px;
+        height: 60px;
+        stroke: var(--line2);
+        margin-bottom: 24px;
+      }
+      .cart-empty p {
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .cart-item {
+        display: flex;
+        gap: 18px;
+        padding: 18px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .cart-item-img {
+        width: 80px;
+        height: 100px;
+        object-fit: cover;
+        background: var(--cream2);
+      }
+      .cart-item-info {
+        flex: 1;
+      }
+      .cart-item-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 16px;
+        font-weight: 300;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .cart-item-variant {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+      .cart-item-price {
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        color: var(--ink);
+      }
+      .cart-item-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-top: 12px;
+      }
+      .cart-qty {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--line);
+      }
+      .cart-qty button {
+        width: 32px;
+        height: 32px;
+        background: none;
+        border: none;
+        cursor: none;
+        font-family: "DM Mono", monospace;
+        font-size: 14px;
+        color: var(--ink);
+        transition: background 0.2s;
+      }
+      .cart-qty button:hover {
+        background: var(--line);
+      }
+      .cart-qty span {
+        width: 40px;
+        text-align: center;
+        font-family: "DM Mono", monospace;
+        font-size: 12px;
+        color: var(--ink);
+      }
+      .cart-item-remove {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        background: none;
+        border: none;
+        cursor: none;
+        transition: color 0.2s;
+      }
+      .cart-item-remove:hover {
+        color: var(--camel);
+      }
+      .cart-footer {
+        padding: 24px 28px;
+        border-top: 1px solid var(--line);
+        background: var(--cream);
+      }
+      .cart-subtotal {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+      .cart-subtotal span {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .cart-subtotal strong {
+        font-family: "DM Sans", sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--ink);
+      }
+      .cart-total {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 24px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+      }
+      .cart-total span {
+        font-family: "DM Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink);
+      }
+      .cart-total strong {
+        font-family: "DM Sans", sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+        color: var(--ink);
+      }
+      .cart-checkout {
+        width: 100%;
+        padding: 18px;
+        background: var(--ink);
+        color: var(--cream);
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        border: none;
+        cursor: none;
+        transition: background 0.3s;
+      }
+      .cart-checkout:hover {
+        background: var(--camel);
+      }
+
+      /* ===== CHECKOUT MODAL ===== */
+      .checkout-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(26, 20, 16, 0.8);
+        backdrop-filter: blur(8px);
+        z-index: 1000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .checkout-modal-overlay.active {
+        display: flex;
+        opacity: 1;
+      }
+      .checkout-modal {
+        background: var(--cream);
+        width: 100%;
+        max-width: 500px;
+        padding: 40px;
+        position: relative;
+        transform: translateY(20px);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .checkout-modal-overlay.active .checkout-modal {
+        transform: translateY(0);
+      }
+      .checkout-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        cursor: none;
+        padding: 10px;
+      }
+      .checkout-close svg {
+        width: 20px;
+        height: 20px;
+        stroke: var(--ink);
+      }
+      .checkout-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .checkout-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 28px;
+        font-weight: 300;
+        color: var(--ink);
+        margin-bottom: 10px;
+      }
+      .checkout-subtitle {
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .checkout-form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .checkout-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .checkout-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .checkout-label {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--ink);
+      }
+      .checkout-input {
+        width: 100%;
+        height: 44px;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--line);
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        color: var(--ink);
+        padding: 0 10px;
+        transition: border-color 0.3s;
+      }
+      .checkout-input:focus {
+        outline: none;
+        border-bottom-color: var(--camel);
+      }
+      .checkout-input::placeholder {
+        color: var(--muted);
+        font-style: italic;
+      }
+      select.checkout-input {
+        appearance: none;
+        border-radius: 0;
+        cursor: pointer;
+      }
+      .checkout-submit {
+        width: 100%;
+        padding: 18px;
+        background: var(--ink);
+        color: var(--cream);
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        border: none;
+        cursor: none;
+        margin-top: 10px;
+        transition: background 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+      .checkout-submit:hover {
+        background: var(--camel);
+      }
+      .checkout-submit.loading {
+        background: var(--muted);
+        pointer-events: none;
+      }
+      .checkout-spinner {
+        width: 14px;
+        height: 14px;
+        border: 2px solid rgba(255,255,255,0.3);
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        display: none;
+      }
+      .checkout-submit.loading .checkout-spinner {
+        display: block;
+      }
+      
+      /* THANKS STATE */
+      .checkout-success {
+        display: none;
+        text-align: center;
+        padding: 20px 0;
+      }
+      .checkout-success.active {
+        display: block;
+      }
+      .success-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 20px;
+        border: 1px solid var(--camel);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--camel);
+      }
+      .success-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 32px;
+        font-weight: 300;
+        color: var(--ink);
+        margin-bottom: 15px;
+      }
+      .success-text {
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.6;
+        margin-bottom: 30px;
+      }
+      .success-order {
+        font-family: "DM Mono", monospace;
+        font-size: 14px;
+        letter-spacing: 0.1em;
+        color: var(--ink);
+        padding: 15px;
+        background: var(--cream2);
+        display: inline-block;
+        margin-bottom: 30px;
+      }
+
+      .cart-checkout:hover {
+        background: var(--camel);
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 1024px) {
+        .pgrid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .hi,
+        .cn-t,
+        .cn-b,
+        .ft,
+        .ftm,
+        .ftb,
+        .stmt,
+        .cs,
+        .lm {
+          padding-left: 24px;
+          padding-right: 24px;
+        }
+      }
+      @media (max-width: 900px) {
+        .hi {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+        .lm {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+        .cat-row {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .cn-f {
+          gap: 16px;
+          flex-wrap: wrap;
+        }
+        .pgrid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .ftm {
+          grid-template-columns: 1fr 1fr;
+          padding: 36px 20px;
+        }
+        .hero-video-title {
+          font-size: clamp(32px, 10vw, 56px);
+        }
+        .collection-video-title {
+          font-size: clamp(26px, 7vw, 42px);
+        }
+        .collection-video-section {
+          height: 70vh;
+          min-height: 500px;
+        }
+        .cart-sidebar {
+          width: 100%;
+        }
+      }
+      @media (max-width: 600px) {
+        .cat-row {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .pgrid {
+          grid-template-columns: 1fr;
+        }
+        .hero-video-cta {
+          padding: 16px 32px;
+          font-size: 8px;
+        }
+        .ftm {
+          grid-template-columns: 1fr;
+        }
+        .lm {
+          padding: 40px 20px;
+        }
+      }
+      /* LOOKBOOKS */
+      .lookbook-section {
+        background: var(--cream);
+        padding: 100px 52px;
+        border-top: 1px solid var(--line);
+      }
+      .lb-title {
+        font-family: "Cormorant Garamond", serif;
+        font-size: clamp(32px, 5vw, 56px);
+        font-weight: 300;
+        text-align: center;
+        margin-bottom: 60px;
+        color: var(--ink);
+      }
+      .lb-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 60px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .lb-item {
+        position: relative;
+        aspect-ratio: 3.5/5;
+        overflow: hidden;
+      }
+      .lb-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 1.2s var(--expo);
+      }
+      .lb-item:hover img {
+        transform: scale(1.04);
+      }
+      .hotspot {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        background: rgba(247, 243, 238, 0.9);
+        border: 1px solid var(--camel);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        cursor: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.4s var(--expo);
+      }
+      .hotspot::after {
+        content: "";
+        position: absolute;
+        inset: -10px;
+        border-radius: 50%;
+        border: 1px solid rgba(184, 152, 106, 0.4);
+        animation: h-pulse 2s infinite;
+      }
+      @keyframes h-pulse {
+        0% { transform: scale(0.6); opacity: 1; }
+        100% { transform: scale(1.8); opacity: 0; }
+      }
+      .hotspot:hover {
+        background: var(--camel);
+        width: 24px;
+        height: 24px;
+      }
+      .hs-card {
+        position: absolute;
+        left: 30px;
+        background: var(--cream);
+        padding: 12px 18px;
+        width: 220px;
+        border: 1px solid var(--line);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateX(-10px);
+        transition: all 0.4s var(--expo);
+        pointer-events: none;
+        z-index: 20;
+      }
+      .hotspot:hover .hs-card {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(0);
+      }
+      .hs-mat { font-family: "DM Mono", monospace; font-size: 7px; color: var(--camel); text-transform: uppercase; margin-bottom: 4px; }
+      .hs-name { font-family: "Cormorant Garamond", serif; font-size: 14px; color: var(--ink); margin-bottom: 6px; }
+      .hs-price { font-size: 11px; color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <div class="grain"></div>
+    <div id="c1"></div>
+    <div id="c2"></div>
+
+    <!-- LOADER -->
+    <div id="loader">
+      <div class="ld-logo">MAIVÉ</div>
+      <div class="ld-bar-wrap"><div class="ld-bar" id="lbar"></div></div>
+    </div>
+
+    <!-- HEADER -->
+    <header id="hdr">
+      <div class="hi">
+        <div class="hl">
+          <button class="hb" id="menuBtn" aria-label="Ouvrir le menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="3" y1="7" x2="21" y2="7" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="17" x2="21" y2="17" />
+            </svg>
+            <span>Menu</span>
+          </button>
+          <button class="hb" id="searchBtn" aria-label="Rechercher">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.35-4.35" />
+            </svg>
+          </button>
+        </div>
+        <a href="#" class="logo">
+          <span class="lm">MAIVÉ</span>
+          <span class="ls">L'ESSENCE DE VOTRE RENAISSANCE</span>
+        </a>
+        <div class="hr2">
+          <button class="ib" id="wishlistBtn" aria-label="Ma liste de souhaits">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+              />
+            </svg>
+          </button>
+          <button class="ib cart-btn" id="cartBtn" aria-label="Voir le panier">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 6h15l-1.5 9h-12L6 6z"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M6 6L5 3H2"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+          <a href="https://wa.me/213XXXXXXXXX" class="wa" target="_blank">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path
+                d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
+              />
+            </svg>
+            <span>WhatsApp</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- CART SIDEBAR -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+      <div class="cart-header">
+        <h3 class="cart-title">Votre Panier</h3>
+        <button class="cart-close" id="cartClose">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+      <div class="cart-items" id="cartItems">
+        <div class="cart-empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M6 6h15l-1.5 9h-12L6 6z" />
+            <circle cx="9" cy="20" r="1.5" />
+            <circle cx="18" cy="20" r="1.5" />
+            <path d="M6 6L5 3H2" />
+          </svg>
+          <p>Votre panier est vide</p>
+        </div>
+      </div>
+      <div class="cart-footer" id="cartFooter" style="display: none">
+        <div class="cart-subtotal">
+          <span>Sous-total</span>
+          <strong id="cartSubtotal">DZD 0</strong>
+        </div>
+        <div class="cart-total">
+          <span>Total</span>
+          <strong id="cartTotal">DZD 0</strong>
+        </div>
+        <button class="cart-checkout" id="checkoutBtn" onclick="checkout()">
+          Passer la commande
+        </button>
+      </div>
+    </div>
+
+    <!-- MARQUEE -->
+    <div class="mq-wrap">
+      <div class="mq-track" id="mq">
+        <span class="mq-item">Nouvelle Collection</span
+        ><span class="mq-sep">✦</span>
+        <span class="mq-item">Cuir Pleine Fleur</span
+        ><span class="mq-sep">✦</span>
+        <span class="mq-item">Livraison Algérie</span
+        ><span class="mq-sep">✦</span>
+        <span class="mq-item">L'essence de votre renaissance</span
+        ><span class="mq-sep">✦</span>
+        <span class="mq-item">Pièces Exclusives</span
+        ><span class="mq-sep">✦</span>
+        <span class="mq-item">Artisanat d'Excellence</span
+        ><span class="mq-sep">✦</span>
+        <span class="mq-item">Nouvelle Collection</span
+        ><span class="mq-sep">✦</span>
+        <span class="mq-item">Cuir Pleine Fleur</span
+        ><span class="mq-sep">✦</span>
+        <span class="mq-item">Livraison Algérie</span
+        ><span class="mq-sep">✦</span>
+        <span class="mq-item">L'essence de votre renaissance</span
+        ><span class="mq-sep">✦</span>
+        <span class="mq-item">Pièces Exclusives</span
+        ><span class="mq-sep">✦</span>
+        <span class="mq-item">Artisanat d'Excellence</span
+        ><span class="mq-sep">✦</span>
+      </div>
+    </div>
+
+    <!-- HERO VIDEO SECTION -->
+    <section class="hero-video-section" id="hero">
+      <div class="hero-video-container">
+    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="none" poster="images/products/img_3548.jpg">
+      <source data-src="videos/hero-video.mp4" type="video/mp4">
+    </video>
+  </div>
+      <div class="hero-video-overlay"></div>
+      <div class="hero-video-vignette"></div>
+      <div class="hero-video-content">
+        <p class="hero-video-eyebrow" id="hve1">Saison 2026</p>
+        <h1 class="hero-video-title" id="hvt1">
+          L'<em>Essence</em> de<br />Votre Renaissance
+        </h1>
+        <p class="hero-video-subtitle" id="hvs1">
+          Des sacs d'exception pour celles qui possèdent leur style avec
+          élégance et assurance.
+        </p>
+        <a href="#collection" class="hero-video-cta" id="hvcta">
+          <span>Découvrir la Collection</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+      <div class="hero-video-scroll" id="hvscroll">
+        <div class="hero-scroll-line"></div>
+        <span class="hero-scroll-text">Scroll</span>
+      </div>
+    </section>
+
+    <!-- CATEGORY STRIP -->
+    <div class="cat-strip" id="collection">
+      <div class="cat-row">
+        <a class="cat-item" href="#" data-cat="totes">
+          <div class="cat-img">
+            <img
+              src="images/products/img_3548.jpg"
+              alt="Totes"
+              loading="lazy"
+              width="300"
+              height="300"
+            />
+          </div>
+          <span class="cat-lbl">Totes</span>
+        </a>
+        <a class="cat-item" href="#" data-cat="mini">
+          <div class="cat-img">
+            <img
+              src="images/products/img_3580.jpg"
+              alt="Mini Bags"
+              loading="lazy"
+              width="300"
+              height="300"
+            />
+          </div>
+          <span class="cat-lbl">Mini Bags</span>
+        </a>
+        <a class="cat-item" href="#" data-cat="clutches">
+          <div class="cat-img">
+            <img
+              src="images/products/img_3560.jpg"
+              alt="Pochettes"
+              loading="lazy"
+              width="300"
+              height="300"
+            />
+          </div>
+          <span class="cat-lbl">Pochettes</span>
+        </a>
+        <a class="cat-item" href="#" data-cat="shoulder">
+          <div class="cat-img">
+            <img
+              src="images/products/img_3570.jpg"
+              alt="Épaule"
+              loading="lazy"
+              width="300"
+              height="300"
+            />
+          </div>
+          <span class="cat-lbl">Épaule</span>
+        </a>
+        <a class="cat-item" href="#" data-cat="crossbody">
+          <div class="cat-img">
+            <img
+              src="images/products/img_3573.jpg"
+              alt="Bandoulière"
+              loading="lazy"
+              width="300"
+              height="300"
+            />
+          </div>
+          <span class="cat-lbl">Bandoulière</span>
+        </a>
+        <a class="cat-item" href="#" data-cat="evening">
+          <div class="cat-img">
+            <img
+              src="images/products/img_3585.jpg"
+              alt="Soirée"
+              loading="lazy"
+              width="300"
+              height="300"
+            />
+          </div>
+          <span class="cat-lbl">Soirée</span>
+        </a>
+      </div>
+    </div>
+
+
+
+    <!-- COLLECTION VIDEO SECTION -->
+    <section class="collection-video-section" id="artisanat">
+      <div class="collection-video-container">
+        <video
+          class="collection-video"
+          id="collectionVideo"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="none"
+          poster="images/collection-poster.jpg"
+        >
+          <source data-src="videos/collection-video.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="collection-video-overlay"></div>
+      <div class="collection-video-content">
+        <p class="collection-video-eyebrow" id="cve1">L'Artisanat MAIVÉ</p>
+        <h2 class="collection-video-title" id="cvt1">
+          "Chaque sac raconte une histoire de passion et d'excellence."
+        </h2>
+        <p class="collection-video-subtitle" id="cvs1">
+          Des matériaux sélectionnés avec soin, travaillés par des mains
+          expertes pour créer des pièces intemporelles qui traversent les
+          générations.
+        </p>
+        <a href="#" class="collection-video-cta" id="cvcta">
+          <span>Découvrir la Collection</span>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            width="14"
+            height="14"
+          >
+            <path d="M5 12h14" />
+            <path d="m12 5 7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- COLLECTION NAV -->
+    <nav class="col-nav">
+      <div class="cn-t">
+        <h2 class="cn-title">La Collection</h2>
+        <div class="cn-f">
+          <button class="fb on" data-filter="all">Tout voir</button>
+          <button class="fb" data-filter="totes">Totes</button>
+          <button class="fb" data-filter="mini">Mini Bags</button>
+          <button class="fb" data-filter="clutches">Pochettes</button>
+          <button class="fb" data-filter="shoulder">Épaule</button>
+          <button class="fb" data-filter="evening">Soirée</button>
+        </div>
+      </div>
+      <div class="cn-b">
+        <span class="cn-count" id="cnt">8 Pièces</span>
+        <div class="cn-s">
+          <button>Filtrer</button><span style="color: var(--beige)">|</span
+          ><button>Trier ▾</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- PRODUCT GRID -->
+    <div class="pgrid" id="grid"></div>
+
+    <div class="load-more-wrap">
+      <button class="lmbtn" id="loadMoreBtn">
+        <span>Voir plus de pièces</span>
+      </button>
+    </div>
+
+    <section class="stmt" id="stmt">
+      <div class="stmt-wm">MAIVÉ</div>
+      <div class="sl"></div>
+      <p class="sq">
+        <span class="sq-i" id="sqI"
+          >"Chaque sac raconte une histoire.<br />Chaque femme qui le porte
+          écrit le prochain chapitre."</span
+        >
+      </p>
+      <div class="sl" style="margin-top: 40px"></div>
+      <p class="stag">MAIVÉ — L'ESSENCE DE VOTRE RENAISSANCE</p>
+    </section>
+
+    <section class="cs" id="cs">
+      <p class="cs-eye">Prochainement</p>
+      <h2 class="cs-t">
+        <span class="cs-ti" id="csT">Quelque chose de nouveau arrive.</span>
+      </h2>
+      <p class="cs-p" id="csp">
+        Soyez la première à découvrir la prochaine collection.
+      </p>
+      <div class="cs-form">
+        <input class="cs-inp" type="email" placeholder="Votre adresse e-mail" />
+        <button class="cs-sub">Notifier</button>
+      </div>
+    </section>
+
+    <footer>
+      <div class="ft">
+        <p class="ftnl">Restez dans l'univers MAIVÉ</p>
+        <div class="ftf">
+          <input class="fti" type="email" placeholder="Votre adresse e-mail" />
+          <button class="fts">Envoyer</button>
+        </div>
+      </div>
+      <div class="ftm">
+        <div>
+          <p class="fbn">MAIVÉ</p>
+          <p class="fbs">L'ESSENCE DE VOTRE RENAISSANCE</p>
+          <div class="fso">
+            <a href="#">IG</a><a href="#">TK</a><a href="#">FB</a
+            ><a href="#">WA</a>
+          </div>
+        </div>
+        <div class="fc">
+          <p class="fch">Contactez-nous</p>
+          <ul>
+            <li><a href="https://wa.me/213XXXXXXXXX">WhatsApp</a></li>
+            <li><a href="#">Instagram DM</a></li>
+            <li><a href="#">Facebook</a></li>
+          </ul>
+        </div>
+        <div class="fc">
+          <p class="fch">La Marque</p>
+          <ul>
+            <li><a href="#">Notre Histoire</a></li>
+            <li><a href="#">Nos Valeurs</a></li>
+            <li><a href="#">Artisanat</a></li>
+          </ul>
+        </div>
+        <div class="fc">
+          <p class="fch">Informations</p>
+          <ul>
+            <li><a href="#">Guide des tailles</a></li>
+            <li><a href="#">Entretien du cuir</a></li>
+            <li><a href="#">Livraison</a></li>
+            <li><a href="login.html" style="opacity: 0.5; font-size: 9px; margin-top: 10px; display: block;">Maive Admin</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="ftb">
+        <p class="fcp">© MAIVÉ 2026 — Tous droits réservés</p>
+        <p class="fcp">L'essence de votre renaissance</p>
+      </div>
+    </footer>
+
+    <!-- SEARCH OVERLAY -->
+    <div id="searchOverlay">
+      <button class="search-close" id="searchClose">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="32" height="32">
+          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Rechercher une pièce..." autofocus>
+      </div>
+      <div id="searchResults"></div>
+    </div>
+
+    <!-- FILTER SIDEBAR -->
+    <div id="filterSidebar">
+      <div class="filter-grp">
+        <p class="filter-title">Prix (DZD)</p>
+        <div class="filter-opt">
+          <label><input type="checkbox" data-type="price" value="0-30000"> Moins de 30.000</label>
+          <label><input type="checkbox" data-type="price" value="30000-50000"> 30.000 - 50.000</label>
+          <label><input type="checkbox" data-type="price" value="50000+"> Plus de 50.000</label>
+        </div>
+      </div>
+      <div class="filter-grp">
+        <p class="filter-title">Couleur</p>
+        <div class="filter-opt">
+          <label><input type="checkbox" data-type="color" value="Noir"> Noir</label>
+          <label><input type="checkbox" data-type="color" value="Camel"> Camel</label>
+          <label><input type="checkbox" data-type="color" value="Beige"> Beige</label>
+          <label><input type="checkbox" data-type="color" value="Crème"> Crème</label>
+        </div>
+      </div>
+      <button class="cart-checkout" id="applyFilters" style="margin-top:20px">Appliquer</button>
+    </div>
+
+    <!-- ===== CHECKOUT MODAL ===== -->
+    <div class="checkout-modal-overlay" id="checkoutOverlay">
+      <div class="checkout-modal">
+        <button class="checkout-close" onclick="closeCheckoutModal()">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <!-- Form View -->
+        <div id="checkoutFormView">
+          <div class="checkout-header">
+            <h2 class="checkout-title">Finaliser la Commande</h2>
+            <p class="checkout-subtitle">Veuillez entrer vos informations de livraison.</p>
+          </div>
+          <form class="checkout-form" id="checkoutForm">
+            <div class="checkout-row">
+              <div class="checkout-group">
+                <label class="checkout-label">Prénom</label>
+                <input type="text" id="co-fname" class="checkout-input" required placeholder="Votre prénom">
+              </div>
+              <div class="checkout-group">
+                <label class="checkout-label">Nom</label>
+                <input type="text" id="co-lname" class="checkout-input" required placeholder="Votre nom">
+              </div>
+            </div>
+            <div class="checkout-group">
+              <label class="checkout-label">Téléphone</label>
+              <input type="tel" id="co-phone" class="checkout-input" required placeholder="Ex: 0555 12 34 56">
+            </div>
+            <div class="checkout-group">
+              <label class="checkout-label">Wilaya</label>
+              <select id="co-wilaya" class="checkout-input" required>
+                <option value="" disabled selected>Sélectionnez votre Wilaya...</option>
+                <option value="Alger">16 - Alger</option>
+                <option value="Oran">31 - Oran</option>
+                <option value="Constantine">25 - Constantine</option>
+                <option value="Annaba">23 - Annaba</option>
+                <option value="Blida">09 - Blida</option>
+                <option value="Autre">Autre Wilaya</option>
+              </select>
+            </div>
+            <div class="checkout-group">
+              <label class="checkout-label">Adresse Complète</label>
+              <input type="text" id="co-address" class="checkout-input" required placeholder="Rue, Bâtiment, Code Postal...">
+            </div>
+            <div class="checkout-group">
+              <label class="checkout-label">Notes (Optionnel)</label>
+              <input type="text" id="co-notes" class="checkout-input" placeholder="Message cadeau ou instruction speciale">
+            </div>
+            <button type="submit" class="checkout-submit" id="checkoutSubmitBtn">
+              <span class="checkout-spinner"></span>
+              <span class="btn-text">Confirmer la Commande</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Success View -->
+        <div class="checkout-success" id="checkoutSuccessView">
+          <div class="success-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
+          <h2 class="success-title">Merci.</h2>
+          <p class="success-text">Votre création a été réservée. Notre conciergerie vous contactera sous peu pour finaliser la livraison.</p>
+          <div class="success-order" id="successOrderNumber">#MAV-XXXX</div>
+          <button class="checkout-submit" onclick="closeCheckoutModal()">Retourner à la boutique</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ============================================
+      // MAIVÉ E-COMMERCE - DYNAMIC ENGINE
+      // ============================================
+
+      const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') 
+        ? 'http://localhost:5000/api' 
+        : '/api';
+
+      let productData = [];
+      const lbar = document.getElementById("lbar"),
+        loader = document.getElementById("loader");
+      let p = 0;
+      const li = setInterval(() => {
+        p = Math.min(p + Math.random() * 22, 100);
+        lbar.style.width = p + "%";
+        if (p >= 100) {
+          clearInterval(li);
+          gsap.to(".ld-logo", {
+            clipPath: "inset(0 0% 0 0)",
+            duration: 0.8,
+            ease: "power3.out",
+            onComplete: () => {
+              gsap.to(loader, {
+                yPercent: -100,
+                duration: 0.9,
+                ease: "power3.inOut",
+                delay: 0.3,
+                onComplete: () => {
+                  loader.style.display = "none";
+                  init();
+                },
+              });
+            },
+          });
+        }
+      }, 55);
+
+      // CURSOR
+      const c1 = document.getElementById("c1"),
+        c2 = document.getElementById("c2");
+      let mx = 0,
+        my = 0,
+        cx = 0,
+        cy = 0;
+      window.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+      });
+      (function ac() {
+        cx += (mx - cx) * 0.85;
+        cy += (my - cy) * 0.85;
+        c1.style.left = mx + "px";
+        c1.style.top = my + "px";
+        c2.style.left = cx + "px";
+        c2.style.top = cy + "px";
+        requestAnimationFrame(ac);
+      })();
+      document.querySelectorAll("a,button,.card,.cat-item").forEach((el) => {
+        el.addEventListener("mouseenter", () =>
+          document.body.classList.add("ch"),
+        );
+        el.addEventListener("mouseleave", () =>
+          document.body.classList.remove("ch"),
+        );
+      });
+
+      // LENIS
+      const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
+      lenis.on("scroll", ScrollTrigger.update);
+      gsap.ticker.add((t) => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
+
+      // HEADER SCROLL
+      const header = document.getElementById("hdr");
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (window.scrollY > 100) header.classList.add("sc");
+          else header.classList.remove("sc");
+        },
+        { passive: true },
+      );
+
+      // MARQUEE
+      const mq = document.getElementById("mq");
+      mq.innerHTML += mq.innerHTML;
+      let mqX = 0,
+        lastS = 0,
+        vel = 0;
+      gsap.ticker.add(() => {
+        const s = lenis.scroll || window.scrollY;
+        vel += (s - lastS - vel) * 0.12;
+        lastS = s;
+        mqX -= 1.2 + Math.abs(vel * 0.5);
+        const w = mq.scrollWidth / 2;
+        if (Math.abs(mqX) >= w) mqX = 0;
+        mq.style.transform = `translateX(${mqX}px)`;
+      });
+
+      // VIDEO LOADING (handled by Observer now)
+      // We remove the old static listeners to let the Intersection Observer manage the 'loaded' class
+
+      // CART FUNCTIONALITY
+      const cartOverlay = document.getElementById("cartOverlay");
+      const cartSidebar = document.getElementById("cartSidebar");
+      const cartBtn = document.getElementById("cartBtn");
+      const cartClose = document.getElementById("cartClose");
+      const cartItems = document.getElementById("cartItems");
+      const cartFooter = document.getElementById("cartFooter");
+      const cartCount = document.getElementById("cartCount");
+      const cartSubtotal = document.getElementById("cartSubtotal");
+      const cartTotal = document.getElementById("cartTotal");
+
+      function openCart() {
+        cartOverlay.classList.add("open");
+        cartSidebar.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeCart() {
+        cartOverlay.classList.remove("open");
+        cartSidebar.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      cartBtn.addEventListener("click", openCart);
+      cartClose.addEventListener("click", closeCart);
+      cartOverlay.addEventListener("click", closeCart);
+
+      let cart = [];
+      function updateCart() {
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const subtotal = cart.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0,
+        );
+        cartCount.textContent = totalItems;
+        cartCount.classList.toggle("visible", totalItems > 0);
+        if (cart.length === 0) {
+          cartItems.innerHTML =
+            '<div class="cart-empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 6h15l-1.5 9h-12L6 6z"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M6 6L5 3H2"/></svg><p>Votre panier est vide</p></div>';
+          cartFooter.style.display = "none";
+        } else {
+          cartItems.innerHTML = cart
+            .map(
+              (item, index) => `
+      <div class="cart-item">
+        <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+        <div class="cart-item-info">
+          <p class="cart-item-name">${item.name}</p>
+          <p class="cart-item-variant">${item.variant}</p>
+          <p class="cart-item-price">DZD ${item.price.toLocaleString()}</p>
+          <div class="cart-item-actions">
+            <div class="cart-qty">
+              <button onclick="updateQty(${index},-1)">-</button>
+              <span>${item.quantity}</span>
+              <button onclick="updateQty(${index},1)">+</button>
+            </div>
+            <button class="cart-item-remove" onclick="removeFromCart(${index})">Supprimer</button>
+          </div>
+        </div>
+      </div>
+    `,
+            )
+            .join("");
+          cartFooter.style.display = "block";
+          cartSubtotal.textContent = `DZD ${subtotal.toLocaleString()}`;
+          cartTotal.textContent = `DZD ${subtotal.toLocaleString()}`;
+        }
+        localStorage.setItem("maive_cart", JSON.stringify(cart));
+      }
+      function addToCart(product, variant, quantity = 1) {
+        const existingIndex = cart.findIndex(
+          (item) =>
+            item.productId === product.id && item.variant === variant.name,
+        );
+        if (existingIndex > -1) {
+          cart[existingIndex].quantity += quantity;
+        } else {
+          cart.push({
+            productId: product.id,
+            name: product.name,
+            variant: variant.name,
+            price: product.price,
+            image: variant.image,
+            quantity,
+          });
+        }
+        updateCart();
+        openCart();
+      }
+      function updateQty(index, change) {
+        cart[index].quantity += change;
+        if (cart[index].quantity <= 0) cart.splice(index, 1);
+        updateCart();
+      }
+      function removeFromCart(index) {
+        cart.splice(index, 1);
+        updateCart();
+      }
+      const savedCart = localStorage.getItem("maive_cart");
+      if (savedCart) {
+        cart = JSON.parse(savedCart);
+        // updateCart(); // Will be called after products are loaded
+      }
+
+      // MERCHANDISING
+      async function fetchStorefront() {
+        console.log("🌀 Starting Storefront Sync...");
+        try {
+          // 1. Fetch Settings
+          console.log("Fetching Settings...");
+          const sRes = await fetch(`${API_BASE}/settings`);
+          const sJson = await sRes.json();
+          if (sJson.success && sJson.data) {
+            const s = sJson.data;
+            console.log("Settings loaded:", s);
+            
+            // Update Hero
+            const heroVideo = document.getElementById('heroVideo');
+            if (heroVideo && s.hero) {
+              const hSource = heroVideo.querySelector('source');
+              if (hSource) {
+                const videoUrl = s.hero.url || "videos/hero-video.mp4";
+                hSource.dataset.src = videoUrl;
+                hSource.src = videoUrl;
+                heroVideo.load();
+                heroVideo.classList.add('loaded'); // Force visible since it's the hero
+                console.log("Hero video source updated.");
+              }
+            }
+            
+            const hvt1 = document.getElementById('hvt1');
+            if (hvt1 && s.hero?.title) {
+              // Only update if the title is drastically different to preserve formatting (<em> etc)
+              if (s.hero.title.includes("Atelier")) {
+                hvt1.innerHTML = s.hero.title;
+              }
+              // Else keep the beautiful hardcoded L'Essence de Votre Renaissance
+            }
+            
+            // Update Announcement (Marquee)
+            if (s.announcement && s.announcement.isActive) {
+              const mq = document.getElementById('mq');
+              if (mq) {
+                mq.innerHTML = `<span class="mq-item">${s.announcement.text}</span><span class="mq-sep">✦</span>`.repeat(10);
+              }
+            }
+          }
+
+          // 2. Fetch Products FIRST (so hotspots can find them)
+          console.log("Fetching Products...");
+          const pRes = await fetch(`${API_BASE}/products?limit=100`);
+          const pJson = await pRes.json();
+          if (pJson.success && pJson.data) {
+            productData = pJson.data.products.map(p => ({
+              id: p._id,
+              name: p.name,
+              material: p.material || 'Cuir d\'exception',
+              price: p.basePrice,
+              category: p.category?.name || 'Collection',
+              tag: p.isNewArrival ? 'new' : (p.isFeatured ? 'excl' : null),
+              tagClass: p.isNewArrival ? 'tn' : 'te',
+              variants: p.variants.map(v => ({
+                name: v.name,
+                hex: v.hexCode || '#b8986a',
+                image: v.images.bagImage,
+                modelImage: v.images.modelImage
+              }))
+            }));
+            console.log(`Loaded ${productData.length} products.`);
+            renderProducts();
+            updateCart();
+          }
+
+
+          
+          console.log("✨ Storefront Sync Complete.");
+        } catch (e) {
+          console.error("❌ Storefront Sync Error:", e);
+          // Fallback: render empty or placeholder products if API is down
+          renderProducts();
+        }
+      }
+
+
+
+      function renderProducts(filter = "all", customProducts = null) {
+        const grid = document.getElementById("grid");
+        const filteredProducts = customProducts || (
+          filter === "all"
+            ? productData
+            : productData.filter((p) => p.category === filter || p.category.toLowerCase() === filter.toLowerCase())
+        );
+        document.getElementById("cnt").textContent =
+          `${filteredProducts.length} Pièces`;
+        if (filteredProducts.length === 0) {
+          grid.innerHTML = '<div style="grid-column: 1/-1; padding: 100px; text-align: center; font-family: Cormorant Garamond; font-size: 24px">Aucune pièce ne correspond à vos critères.</div>';
+          return;
+        }
+        grid.innerHTML = filteredProducts
+          .map((product, index) => {
+            const defaultVariant = product.variants[0];
+            const tagHtml = product.tag
+              ? `<span class="ctag ${product.tagClass}">${product.tag === "new" ? "NOUVEAUTÉ" : "EXCLUSIVITÉ"}</span>`
+              : "";
+            const swatchesHtml = product.variants
+              .map(
+                (v, i) =>
+                  `<div class="sw ${i === 0 ? "on" : ""}" style="background:${v.hex}" title="${v.name}" data-variant="${i}" onclick="changeVariant(event,'${product.id}',${i})"></div>`,
+              )
+              .join("");
+            return `
+      <article class="card" data-cat="${product.category}" data-product-id="${product.id}">
+        ${tagHtml}
+        <div class="card-img">
+          <div class="ca"><img src="${defaultVariant.image}" alt="${product.name}" class="product-img-bag" loading="lazy" width="450" height="600"></div>
+          <div class="cb"><img src="${defaultVariant.modelImage}" alt="${product.name} - Model" class="product-img-model" loading="lazy" width="450" height="600"></div>
+          <div class="pill"><span class="pill-in">${product.category} →</span></div>
+          <button class="quick-add" onclick="quickAdd(event,'${product.id}')" aria-label="Ajouter au panier" title="Ajouter au panier">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>
+          </button>
+        </div>
+        <div class="ci">
+          <p class="cmat">${product.material}</p>
+          <h3 class="cname">${product.name}</h3>
+          <p class="cprice">DZD ${product.price.toLocaleString()}</p>
+          <div class="csw">${swatchesHtml}<span class="swl">${defaultVariant.name}</span></div>
+        </div>
+      </article>
+    `;
+          })
+          .join("");
+        grid.querySelectorAll('.card').forEach(card => {
+          card.addEventListener('mouseenter', () => document.body.classList.add('ch'));
+          card.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+        });
+        initCardObserver();
+      }
+      function changeVariant(event, productId, variantIndex) {
+        event.stopPropagation();
+        const product = productData.find((p) => p.id === productId);
+        const variant = product.variants[variantIndex];
+        const card = document.querySelector(`[data-product-id="${productId}"]`);
+        card
+          .querySelectorAll(".sw")
+          .forEach((sw, i) => sw.classList.toggle("on", i === variantIndex));
+        card.querySelector(".swl").textContent = variant.name;
+        card.querySelector(".product-img-bag").src = variant.image;
+        card.querySelector(".product-img-model").src = variant.modelImage;
+      }
+      function quickAdd(event, productId) {
+        event.stopPropagation();
+        const product = productData.find((p) => p.id === productId);
+        const card = document.querySelector(`[data-product-id="${productId}"]`);
+        const activeVariantIndex = Array.from(
+          card.querySelectorAll(".sw"),
+        ).findIndex((sw) => sw.classList.contains("on"));
+        const variant =
+          product.variants[activeVariantIndex] || product.variants[0];
+        addToCart(product, variant);
+      }
+      document.querySelectorAll(".fb[data-filter]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".fb[data-filter]")
+            .forEach((b) => b.classList.remove("on"));
+          btn.classList.add("on");
+          renderProducts(btn.dataset.filter);
+        });
+      });
+      document.querySelectorAll(".cat-item").forEach((item) => {
+        item.addEventListener("click", (e) => {
+          e.preventDefault();
+          const cat = item.dataset.cat;
+          document
+            .querySelectorAll(".fb[data-filter]")
+            .forEach((b) => b.classList.remove("on"));
+          document
+            .querySelector(`.fb[data-filter="${cat}"]`)
+            ?.classList.add("on");
+          renderProducts(cat);
+          document
+            .getElementById("collection")
+            .scrollIntoView({ behavior: "smooth" });
+        });
+      });
+
+      function initCardObserver() {
+        const io = new IntersectionObserver(
+          (entries) =>
+            entries.forEach((e) => {
+              if (e.isIntersecting) e.target.classList.add("vis");
+            }),
+          { threshold: 0.08, rootMargin: "0px 0px -20px 0px" },
+        );
+        document.querySelectorAll(".card").forEach((c) => io.observe(c));
+      }
+
+      function init() {
+        gsap.registerPlugin(ScrollTrigger);
+        fetchStorefront();
+        const heroTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+        heroTl
+          .to("#hve1", { opacity: 1, y: 0, duration: 0.8, delay: 0.3 })
+          .to("#hvt1", { opacity: 1, y: 0, duration: 1 }, "<.2")
+          .to("#hvs1", { opacity: 1, y: 0, duration: 0.8 }, "<.3")
+          .to("#hvcta", { opacity: 1, y: 0, duration: 0.7 }, "<.2")
+          .to("#hvscroll", { opacity: 1, duration: 0.6 }, "<.2");
+        gsap.to("#heroVideo", {
+          yPercent: -8,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#hero",
+            start: "top top",
+            end: "bottom top",
+            scrub: 1.5,
+          },
+        });
+        gsap.to(".hero-video-content", {
+          yPercent: -15,
+          opacity: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#hero",
+            start: "top top",
+            end: "50% top",
+            scrub: true,
+          },
+        });
+        gsap.utils.toArray(".cat-item").forEach((el, i) => {
+          gsap.from(el, {
+            opacity: 0,
+            y: 20,
+            duration: 0.7,
+            delay: i * 0.06,
+            scrollTrigger: { trigger: el, start: "top 92%", once: true },
+          });
+        });
+        const collectionTl = gsap.timeline({
+          scrollTrigger: {
+            trigger: "#artisanat",
+            start: "top 70%",
+            once: true,
+          },
+        });
+        collectionTl
+          .to("#cve1", { opacity: 1, y: 0, duration: 0.8 })
+          .to("#cvt1", { opacity: 1, y: 0, duration: 1 }, "<.15")
+          .to("#cvs1", { opacity: 1, y: 0, duration: 0.8 }, "<.2")
+          .to("#cvcta", { opacity: 1, y: 0, duration: 0.7 }, "<.15");
+        gsap.to('#collectionVideo',{yPercent:-6,ease:'none',scrollTrigger:{trigger:'#artisanat',start:'top bottom',end:'bottom top',scrub:1.5}});
+  ScrollTrigger.create({trigger:'#stmt',start:'top 70%',once:true,onEnter:()=>gsap.to('#sqI',{y:'0%',duration:1.1,ease:'power3.out'})});
+  ScrollTrigger.create({trigger:'#cs',start:'top 80%',once:true,onEnter:()=>{gsap.to('#csT',{y:'0%',duration:.9,ease:'power3.out'});gsap.to('#csp',{opacity:1,duration:.8,delay:.2});}});
+
+  // Video Lazy Loading Observer
+  const videos=document.querySelectorAll('video');
+  if('IntersectionObserver' in window){
+    const videoObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const video = entry.target;
+          const source = video.querySelector('source');
+          if (source && source.dataset.src) {
+            // Only set src if not already set
+            if (!source.src || source.src.includes('undefined')) {
+              source.src = source.dataset.src;
+              video.load();
+            }
+            
+            // If already ready or playing, add loaded immediately
+            if (video.readyState >= 2) {
+              video.classList.add('loaded');
+            } else {
+              video.addEventListener('loadeddata', () => {
+                video.classList.add('loaded');
+              }, { once: true });
+            }
+            observer.unobserve(video);
+          }
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '200px' }); // Load slightly before it hits the viewport
+    videos.forEach(v => videoObserver.observe(v));
+  }
+}
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) lenis.scrollTo(target, { offset: -80 });
+        });
+      });
+
+/* ===== CHECKOUT LOGIC ===== */
+      const checkoutOverlay = document.getElementById("checkoutOverlay");
+      const checkoutForm = document.getElementById("checkoutForm");
+      const checkoutFormView = document.getElementById("checkoutFormView");
+      const checkoutSuccessView = document.getElementById("checkoutSuccessView");
+      const checkoutSubmitBtn = document.getElementById("checkoutSubmitBtn");
+      
+      // Open / Close Modal
+      window.checkout = function() {
+        if (cart.length === 0) {
+          alert("Votre panier est vide.");
+          return;
+        }
+        closeCart();
+        // Reset Views
+        checkoutFormView.style.display = "block";
+        checkoutSuccessView.style.display = "none";
+        checkoutSuccessView.classList.remove("active");
+        checkoutForm.reset();
+        
+        checkoutOverlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+      };
+
+      window.closeCheckoutModal = function() {
+        checkoutOverlay.classList.remove("active");
+        document.body.style.overflow = "";
+        // If they closed from success, clear the cart to finish
+        if(checkoutSuccessView.classList.contains("active")) {
+           cart = [];
+           updateCart();
+        }
+      };
+
+      // Handle Submit
+      checkoutForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        
+        // Disable button & show spinner
+        checkoutSubmitBtn.classList.add("loading");
+        checkoutSubmitBtn.querySelector('.btn-text').innerText = "Traitement...";
+
+        const formData = {
+          customerInfo: {
+            firstName: document.getElementById('co-fname').value,
+            lastName: document.getElementById('co-lname').value,
+            phone: document.getElementById('co-phone').value,
+            email: "guest@maive.dz"
+          },
+          shippingAddress: {
+            firstName: document.getElementById('co-fname').value,
+            lastName: document.getElementById('co-lname').value,
+            phone: document.getElementById('co-phone').value,
+            email: "guest@maive.dz",
+            wilaya: document.getElementById('co-wilaya').value,
+            city: document.getElementById('co-wilaya').value,
+            address: document.getElementById('co-address').value
+          },
+          shippingMethod: 'standard',
+          paymentMethod: 'cash_on_delivery',
+          isGift: false,
+          items: cart.map(item => ({
+             product: item.productId,
+             name: item.name,
+             price: item.price,
+             quantity: item.quantity,
+             image: item.image,
+             variant: {
+                 colorName: item.variant || 'Standard'
+             }
+          })),
+          total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
+          subtotal: cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
+        };
+
+        try {
+          // Send request to the correct checkout endpoint
+          const res = await fetch(`${API_BASE}/orders/checkout`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          });
+          const json = await res.json();
+          
+          if (json.success) {
+            // Show Success View
+            document.getElementById('successOrderNumber').innerText = `#${json.data.order.orderNumber}`;
+            checkoutFormView.style.display = "none";
+            checkoutSuccessView.style.display = "block";
+            checkoutSuccessView.classList.add("active");
+          } else {
+            console.error("Order Failed:", json);
+            if (json.message && json.message.includes("Product not found")) {
+                alert("Votre panier contient d'anciens articles qui ne sont plus disponibles. Le panier va être vidé.");
+                cart = [];
+                updateCart();
+                closeCheckoutModal();
+            } else {
+                alert("Erreur lors de la création de la commande: " + json.message);
+            }
+          }
+        } catch (error) {
+          console.error("Network Error during checkout:", error);
+          alert("Erreur réseau. Veuillez réessayer.");
+        } finally {
+          checkoutSubmitBtn.classList.remove("loading");
+          checkoutSubmitBtn.querySelector('.btn-text').innerText = "Confirmer la Commande";
+        }
+      });
+      // SEARCH LOGIC
+      const searchBtn = document.getElementById("searchBtn");
+      const searchOverlay = document.getElementById("searchOverlay");
+      const searchClose = document.getElementById("searchClose");
+      const searchInput = document.getElementById("searchInput");
+      const searchResults = document.getElementById("searchResults");
+
+      function openSearch() {
+        searchOverlay.classList.add("open");
+        searchInput.focus();
+        document.body.style.overflow = "hidden";
+      }
+      function closeSearch() {
+        searchOverlay.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      searchBtn.addEventListener("click", openSearch);
+      searchClose.addEventListener("click", closeSearch);
+
+      searchInput.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        if (query.length < 2) {
+          searchResults.innerHTML = "";
+          return;
+        }
+        const filtered = productData.filter(
+          (p) =>
+            p.name.toLowerCase().includes(query) ||
+            p.material.toLowerCase().includes(query),
+        );
+        searchResults.innerHTML = filtered
+          .map(
+            (p) => `
+        <a href="#collection" class="search-item" onclick="closeSearch(); renderProducts('${p.category}')">
+          <img src="${p.variants[0].image}" alt="${p.name}">
+          <p>${p.name}</p>
+          <span>DZD ${p.price.toLocaleString()}</span>
+        </a>
+      `,
+          )
+          .join("");
+      });
+
+      // FILTER SIDEBAR LOGIC
+      const filterBtn = document.querySelector('.cn-s button:first-child');
+      const filterSidebar = document.getElementById("filterSidebar");
+      const applyFiltersBtn = document.getElementById("applyFilters");
+
+      function openFilters() {
+        filterSidebar.classList.add("open");
+      }
+      function closeFilters() {
+        filterSidebar.classList.remove("open");
+      }
+      filterBtn.addEventListener("click", openFilters);
+      document.addEventListener('click', (e) => {
+        if(!filterSidebar.contains(e.target) && !filterBtn.contains(e.target)) closeFilters();
+      });
+
+      applyFiltersBtn.addEventListener("click", () => {
+        const selectedPrices = Array.from(document.querySelectorAll('input[data-type="price"]:checked')).map(i => i.value);
+        const selectedColors = Array.from(document.querySelectorAll('input[data-type="color"]:checked')).map(i => i.value);
+        
+        const filtered = productData.filter(p => {
+          let priceMatch = selectedPrices.length === 0;
+          if (selectedPrices.length > 0) {
+            priceMatch = selectedPrices.some(range => {
+               if(range === '0-30000') return p.price < 30000;
+               if(range === '30000-50000') return p.price >= 30000 && p.price <= 50000;
+               if(range === '50000+') return p.price > 50000;
+               return false;
+            });
+          }
+
+          let colorMatch = selectedColors.length === 0;
+          if (selectedColors.length > 0) {
+            colorMatch = p.variants.some(v => selectedColors.includes(v.name));
+          }
+
+          return priceMatch && colorMatch;
+        });
+
+        renderFilteredResults(filtered);
+        closeFilters();
+        document.getElementById("collection").scrollIntoView({ behavior: "smooth" });
+      });
+
+      function renderFilteredResults(products) {
+        renderProducts(null, products);
+        closeFilters();
+        document.getElementById("collection").scrollIntoView({ behavior: "smooth" });
+      }
+
+    </script>
+  </body>
+</html>

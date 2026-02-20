@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAIVÉ Admin — Orchestration</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+:root{
+  --ink:#1a1410; --beige:#c9b99a; --camel:#b8986a;
+  --cream:#f7f3ee; --cream2:#ede8df; --muted:#8a8078;
+  --success:#2d5a27; --pending:#b8986a; --error:#a63232;
+  --line:rgba(26,20,16,0.1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Cormorant Garamond', serif; font-style: italic; background:var(--cream);color:var(--ink);display:flex;min-height:100vh;overflow:hidden;}
+.logo{font-family:'Cormorant Garamond',serif;font-size:24px;letter-spacing:.4em;margin-bottom:60px;color:var(--beige); font-style: normal;}
+nav{flex:1;}
+nav ul{list-style:none;}
+nav li{margin-bottom:20px;}
+nav a{color:var(--muted);text-decoration:none;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;transition:color .3s;display:flex;align-items:center;gap:12px;cursor:pointer;}
+nav a.active, nav a:hover{color:var(--beige);}
+nav a svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;}
+
+/* MAIN */
+main{flex:1;padding:50px 60px;overflow-y:auto;height:100vh;}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:50px;}
+h1{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;letter-spacing:.05em;}
+.user-info{display:flex;align-items:center;gap:15px;font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;color:var(--muted);}
+.avatar{width:32px;height:32px;background:var(--beige);border-radius:50%;}
+
+/* VIEW SYSTEM */
+.view{display:none;}
+.view.active{display:block;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;margin-bottom:50px;}
+.stat-card{background:white;padding:30px;border:1px solid var(--line);box-shadow:0 4px 20px rgba(0,0,0,.02);}
+.stat-lbl{font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;letter-spacing:.1em;}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:400;}
+
+/* TABLE */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;}
+.section-title{font-family:'DM Mono',monospace;font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.2em;}
+.tbl-wrap{background:white;border:1px solid var(--line);box-shadow:0 4px 20px rgba(0,0,0,.02);margin-bottom:40px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:left;padding:18px 24px;background:var(--cream2);font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
+td{padding:18px 24px;border-top:1px solid var(--cream2);vertical-align:middle;}
+.status{padding:4px 10px;border-radius:2px;font-size:10px;font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:.05em;}
+.s-pending, .s-low{background:rgba(184,152,106,.1);color:var(--camel);}
+.s-shipped, .s-delivered, .s-active, .s-in_stock{background:rgba(45,90,39,.1);color:var(--success);}
+.s-cancelled, .s-out_of_stock{background:rgba(166,50,50,.1);color:var(--error);}
+
+.btn{background:var(--ink);color:var(--cream);border:none;padding:12px 24px;font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;cursor:pointer;transition:all .3s;display:inline-flex;align-items:center;gap:10px;}
+.btn:hover{background:var(--camel);transform:translateY(-2px);}
+.btn-outline{background:transparent;color:var(--ink);border:1px solid var(--line);}
+
+/* MODAL */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(26,20,16,0.8);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;z-index:1000;}
+#mediaModal{z-index:1100;} /* Ensure media library stack on top of other modals */
+.modal{background:white;width:90%;max-width:600px;padding:40px;position:relative;max-height:90vh;overflow-y:auto;box-shadow:0 30px 90px rgba(0,0,0,0.5);}
+.modal-header{margin-bottom:30px;}
+.modal-close{position:absolute;top:20px;right:20px;cursor:pointer;background:none;border:none;font-size:24px;}
+
+.form-group{margin-bottom:20px;}
+.form-label{display:block;font-family:'DM Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px;}
+.form-input{width:100%;padding:12px;border:1px solid var(--line);font-family:'DM Sans',sans-serif;font-size:14px;background:var(--cream);}
+textarea.form-input{height:100px;resize:none;}
+
+/* PRODUCT IMAGES */
+.p-img{width:40px;height:40px;background:var(--cream2);object-fit:cover;border-radius:2px;}
+      /* MEDIA LIBRARY */
+      .media-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+        max-height: 400px;
+        overflow-y: auto;
+        padding: 5px;
+      }
+      .media-item {
+        aspect-ratio: 1;
+        border: 1px solid var(--line);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+      .media-item:hover { border-color: var(--camel); transform: translateY(-2px); }
+      .media-item img, .media-item video {
+        width: 100%; height: 100%; object-fit: cover;
+      }
+      .media-item .m-type {
+        position: absolute; bottom: 5px; right: 5px; background: rgba(0,0,0,0.5); color: white; font-size: 8px; padding: 2px 4px; border-radius: 2px;
+      }
+      /* LOADING SPINNER */
+      .loader-overlay { position: fixed; top: 20px; right: 20px; display: none; align-items: center; gap: 10px; background: white; padding: 10px 20px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 2000; font-family: 'DM Mono', monospace; font-size: 10px; color: var(--ink); }
+      .spinner { width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--ink); border-radius: 50%; animation: spin 0.8s linear infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      /* TOAST NOTIFICATIONS */
+      .toast-container { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+      .toast { padding: 14px 24px; background: var(--ink); color: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 13px; border-radius: 4px; box-shadow: 0 8px 30px rgba(0,0,0,0.15); transform: translateX(120%); animation: toastIn 0.4s ease forwards; display: flex; align-items: center; gap: 10px; max-width: 380px; }
+      .toast.success { border-left: 3px solid #4a7c59; }
+      .toast.error { border-left: 3px solid var(--error); }
+      .toast.info { border-left: 3px solid var(--camel); }
+      .toast.out { animation: toastOut 0.3s ease forwards; }
+      @keyframes toastIn { to { transform: translateX(0); } }
+      @keyframes toastOut { to { transform: translateX(120%); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+<aside>
+  <div class="logo">MAIVÉ</div>
+  <nav>
+    <ul id="mainNav">
+      <li><a onclick="switchView('dashboard')" id="nav-dashboard" class="active"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a></li>
+      <li><a onclick="switchView('products')" id="nav-products"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 01-8 0"/></svg>Produits</a></li>
+      <li><a onclick="switchView('orders')" id="nav-orders"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 11-7.6-11.2"/><path d="M16 3l-4 4 4 4"/></svg>Commandes</a></li>
+      <li><a onclick="switchView('customers')" id="nav-customers"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Clients</a></li>
+      <li><a onclick="switchView('merchandising')" id="nav-merchandising"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Merchandising</a></li>
+      <li><a onclick="switchView('categories')" id="nav-categories"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" fill="none"/><line x1="9" y1="9" x2="15" y2="9" stroke="currentColor"/><line x1="9" y1="13" x2="15" y2="13" stroke="currentColor"/></svg>Catégories</a></li>
+    </ul>
+  </nav>
+  <nav style="margin-top:auto">
+    <ul>
+      <li><a onclick="logout()"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Déconnexion</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<div class="loader-overlay" id="globalLoader">
+  <div class="spinner"></div>
+  <span>TRAITEMENT...</span>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<main>
+  <header>
+    <h1 id="viewTitle">Aperçu de l'Atelier</h1>
+    <div class="user-info">
+      <span>Admin MAIVÉ</span>
+      <div class="avatar"></div>
+    </div>
+  </header>
+
+  <!-- DASHBOARD VIEW -->
+  <section id="view-dashboard" class="view active">
+    <div class="stats" id="dashboardStats">
+      <div class="stat-card"><p class="stat-lbl">Chargement...</p></div>
+    </div>
+    <div class="section-header">
+      <h2 class="section-title">Commandes Récentes</h2>
+      <button class="btn btn-outline" onclick="switchView('orders')">Voir tout</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Client</th><th>Date</th><th>Total</th><th>Statut</th><th>Action</th></tr>
+        </thead>
+        <tbody id="recentOrdersList"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PRODUCTS VIEW -->
+  <section id="view-products" class="view">
+    <div class="section-header">
+      <h2 class="section-title">Inventaire des Pièces</h2>
+      <button class="btn" onclick="openModal('productModal')">+ Nouvelle Pièce</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Image</th><th>Nom</th><th>Catégorie</th><th>Prix</th><th>Stock</th><th>Statut</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="productsList"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ORDERS VIEW -->
+  <section id="view-orders" class="view">
+    <div class="section-header">
+      <h2 class="section-title">Gestion des Commandes</h2>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Client</th><th>Téléphone</th><th>Date</th><th>Total</th><th>Paiement</th><th>Statut</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="fullOrdersList"></tbody>
+      </table>
+    </div>
+
+    <!-- ORDER DETAIL MODAL -->
+    <div class="modal-overlay" id="orderDetailModal">
+      <div class="modal" style="max-width:700px;">
+        <button class="modal-close" onclick="closeModal('orderDetailModal')">&times;</button>
+        <div class="modal-header">
+          <h2 id="orderDetailTitle">Détails de la Commande</h2>
+        </div>
+        <div id="orderDetailContent" style="font-size:14px;line-height:1.8;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CUSTOMERS VIEW -->
+  <section id="view-customers" class="view">
+    <div class="section-header">
+      <h2 class="section-title">Répertoire Clients</h2>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Client</th><th>Email</th><th>Inscrit le</th><th>Commandes</th><th>Total Dépensé</th><th>Statut</th></tr>
+        </thead>
+        <tbody id="customersList"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- MERCHANDISING VIEW -->
+  <section id="view-merchandising" class="view">
+    <div class="stats">
+      <div class="stat-card" style="grid-column: span 2;">
+        <p class="stat-lbl">Contrôle Hero (Accueil)</p>
+        <form id="heroForm" style="margin-top:15px;">
+           <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+              <div class="form-group">
+                <label class="form-label">Type de Média</label>
+                <select name="type" class="form-input"><option value="video">Vidéo</option><option value="image">Image</option></select>
+              </div>
+               <div class="form-group">
+                 <label class="form-label">URL du Média</label>
+                 <div style="display:flex; gap:10px;">
+                    <input type="text" name="url" id="heroUrlInput" class="form-input" placeholder="Lien direct" style="flex:1;">
+                    <button type="button" class="btn btn-outline" onclick="openMediaLibrary('heroUrlInput')" style="padding:10px;">BIBLIOTHÈQUE</button>
+                 </div>
+               </div>
+            </div>
+           <div class="form-group">
+            <label class="form-label">Titre Hero</label>
+            <input type="text" name="title" class="form-input">
+           </div>
+           <button type="submit" class="btn">Mettre à jour le Hero</button>
+        </form>
+      </div>
+      <div class="stat-card">
+        <p class="stat-lbl">Barre d'Annonce</p>
+        <form id="announcementForm" style="margin-top:15px;">
+            <div class="form-group">
+              <label class="form-label">Texte d'actualité</label>
+              <input type="text" name="text" class="form-input">
+            </div>
+            <button type="submit" class="btn btn-outline">Enregistrer</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <h2 class="section-title">Lookbooks Interactifs</h2>
+      <button class="btn" onclick="openModal('lookbookModal')">+ Nouveau Lookbook</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Aperçu</th><th>Titre</th><th>Hotspots</th><th>Statut</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="lookbookList"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<!-- LOOKBOOK MODAL -->
+<div class="modal-overlay" id="lookbookModal">
+  <div class="modal" style="max-width:800px;">
+    <button class="modal-close" onclick="closeModal('lookbookModal')">&times;</button>
+    <div class="modal-header">
+      <h2 style="font-family:'Cormorant Garamond', serif;">Créer un Nouveau Lookbook</h2>
+    </div>
+    <form id="lookbookForm">
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px;">
+        <div>
+          <div class="form-group">
+            <label class="form-label">Titre du Lookbook</label>
+            <input type="text" name="title" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Lien de l'Image</label>
+            <div style="display:flex; gap:10px;">
+              <input type="text" name="image" id="lookbookImgUrl" class="form-input" required placeholder="Collez l'URL" style="flex:1;">
+              <button type="button" class="btn btn-outline" onclick="openMediaLibrary('lookbookImgUrl')" style="padding:10px;">BIBLIOTHÈQUE</button>
+            </div>
+          </div>
+          <p style="font-size:10px; color:var(--muted); font-family:'DM Mono', monospace; margin-top:10px;">
+            Conseil: Utilisez une photo verticale de haute qualité (Portrait).
+          </p>
+        </div>
+        <div id="hotspotPreview" style="position:relative; background:var(--cream2); aspect-ratio:3/4; overflow:hidden; cursor:crosshair; border:1px solid var(--line);">
+          <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:10px; text-align:center; padding:20px;">
+            Une fois l'URL collée, l'image apparaîtra ici. Cliquez pour ajouter des "Shopping Tags".
+          </div>
+          <img id="previewImg" style="width:100%; height:100%; object-fit:cover; display:none;">
+        </div>
+      </div>
+      <div id="hotspotList" style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:10px;"></div>
+      <button type="submit" class="btn" style="width:100%; justify-content:center; margin-top:30px;">Publier le Lookbook</button>
+    </form>
+  </div>
+</div>
+
+<!-- MEDIA LIBRARY MODAL -->
+<div class="modal-overlay" id="mediaModal">
+  <div class="modal" style="max-width:800px;">
+    <button class="modal-close" onclick="closeModal('mediaModal')">&times;</button>
+    <div class="modal-header">
+      <h2 style="font-family:'Cormorant Garamond', serif;">Bibliothèque Média</h2>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <p style="font-size:12px; color:var(--muted);">Sélectionnez un média ou importez-en un nouveau.</p>
+      <label class="btn" style="cursor:pointer;">
+        + IMPORTER
+        <input type="file" id="mediaUpload" style="display:none;" accept="image/*,video/mp4" onchange="uploadMedia(this)">
+      </label>
+    </div>
+    <div id="mediaGrid" class="media-grid">
+      <!-- Media items will be injected here -->
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('productModal')">&times;</button>
+    <div class="modal-header">
+      <h2 style="font-family:'Cormorant Garamond', serif;">Nouvelle Création MAIVÉ</h2>
+    </div>
+    <form id="productForm">
+      <div class="form-group">
+        <label class="form-label">Nom de la pièce</label>
+        <input type="text" name="name" class="form-input" required placeholder="ex: Tote Luxe Noir">
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div class="form-group">
+          <label class="form-label">Prix (DZD)</label>
+          <input type="number" name="basePrice" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Catégorie</label>
+          <select name="category" id="categorySelect" class="form-input" required></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-input" required></textarea>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+        <div class="form-group">
+          <label class="form-label">Image du Sac</label>
+          <div style="display:flex; gap:10px;">
+            <input type="text" name="bagImage" id="productBagImg" class="form-input" required placeholder="URL de l'image">
+            <button type="button" class="btn btn-outline" onclick="openMediaLibrary('productBagImg')" title="Bibliothèque" style="padding:10px;">BIBLIO</button>
+            <label class="btn" title="Télécharger depuis mon PC" style="padding:10px; cursor:pointer;">
+              UP
+              <input type="file" style="display:none;" accept="image/*" onchange="uploadAndSetImage(this, 'productBagImg')">
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Image Portée (Modèle)</label>
+          <div style="display:flex; gap:10px;">
+            <input type="text" name="modelImage" id="productModelImg" class="form-input" required placeholder="URL de l'image">
+            <button type="button" class="btn btn-outline" onclick="openMediaLibrary('productModelImg')" title="Bibliothèque" style="padding:10px;">BIBLIO</button>
+            <label class="btn" title="Télécharger depuis mon PC" style="padding:10px; cursor:pointer;">
+              UP
+              <input type="file" style="display:none;" accept="image/*" onchange="uploadAndSetImage(this, 'productModelImg')">
+            </label>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn" style="width:100%; justify-content:center;">Publier à l'Atelier</button>
+    </form>
+  </div>
+</div>
+
+<!-- CATEGORY MODAL -->
+<div class="modal-overlay" id="categoryModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('categoryModal')">&times;</button>
+    <div class="modal-header">
+      <h2 style="font-family:'Cormorant Garamond', serif;">Nouvelle Catégorie</h2>
+    </div>
+    <form id="categoryForm">
+      <div class="form-group">
+        <label class="form-label">Nom de la catégorie</label>
+        <input type="text" name="name" class="form-input" required placeholder="ex: Sacs Porté Épaule">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-input" placeholder="Brève description pour le site..."></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Ordre d'affichage</label>
+        <input type="number" name="order" class="form-input" value="0">
+      </div>
+      <button type="submit" class="btn" style="width:100%; justify-content:center;">Créer la Catégorie</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:5000/api'
+    : '/api';
+  const token = localStorage.getItem('maive_token');
+
+  if (!token) window.location.href = 'login.html';
+
+  // Toast Notification System
+  function showToast(message, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `${type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ'} ${message}`;
+    container.appendChild(toast);
+    setTimeout(() => {
+      toast.classList.add('out');
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+
+  // Navigation Logic
+  function switchView(viewName) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(`view-${viewName}`).classList.add('active');
+    
+    document.querySelectorAll('#mainNav a').forEach(a => a.classList.remove('active'));
+    document.getElementById(`nav-${viewName}`).classList.add('active');
+    
+    const titles = {
+      dashboard: 'Aperçu de l\'Atelier',
+      products: 'Gestion de l\'Inventaire',
+      orders: 'Journal des Commandes',
+      customers: 'Clientèle Privée',
+      merchandising: 'Orchestration Merchandising',
+      categories: 'Gestion des Catégories'
+    };
+    document.getElementById('viewTitle').innerText = titles[viewName];
+    
+    // Animate view entry
+    gsap.from(`#view-${viewName} > *`, {opacity:0, y:10, duration:0.5, stagger:0.1, ease:'power2.out'});
+    
+    // Load relevant data
+    if (viewName === 'dashboard') fetchStats();
+    if (viewName === 'products') fetchProducts();
+    if (viewName === 'orders') fetchAllOrders();
+    if (viewName === 'customers') fetchCustomers();
+    if (viewName === 'merchandising') {
+      fetchSettings();
+      fetchLookbooks();
+    }
+    if (viewName === 'categories') loadCategories();
+  }
+
+  function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+  function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+  function showLoader(show) {
+    document.getElementById('globalLoader').style.display = show ? 'flex' : 'none';
+  }
+
+  async function apiFetch(url, options = {}) {
+    showLoader(true);
+    try {
+      const res = await fetch(url, options);
+      const json = await res.json();
+      if (!json.success && json.message) {
+        console.error(`API Error on ${url}:`, json.message);
+        // We can add a custom toast here later
+      }
+      return json;
+    } catch (e) {
+      console.error(`Network Error on ${url}:`, e);
+      return { success: false, message: 'Erreur réseau' };
+    } finally {
+      showLoader(false);
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem('maive_token');
+    window.location.href = 'login.html';
+  }
+
+  // --- DATA FETCHING ---
+
+  async function fetchStats() {
+    const json = await apiFetch(`${API_BASE}/dashboard/stats`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (json.success) {
+      const stats = json.data;
+      document.getElementById('dashboardStats').innerHTML = `
+        <div class="stat-card"><p class="stat-lbl">CA Ce Mois (DZD)</p><p class="stat-val">${stats.thisMonth.revenue.toLocaleString()}</p></div>
+        <div class="stat-card"><p class="stat-lbl">Commandes Actives</p><p class="stat-val">${stats.thisMonth.orders}</p></div>
+        <div class="stat-card"><p class="stat-lbl">Ruptures Stock</p><p class="stat-val">${stats.lowStockProducts.length}</p></div>
+      `;
+      renderTable('recentOrdersList', stats.recentOrders, 'order');
+    }
+  }
+
+  async function fetchProducts() {
+    const json = await apiFetch(`${API_BASE}/products?status=active&limit=100`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (json.success) renderTable('productsList', json.data.products, 'product');
+  }
+
+  async function fetchAllOrders() {
+    const json = await apiFetch(`${API_BASE}/orders`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (json.success) {
+      allOrdersData = json.data.orders;
+      renderTable('fullOrdersList', json.data.orders, 'order');
+    }
+  }
+
+  async function fetchCustomers() {
+    const json = await apiFetch(`${API_BASE}/customers`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (json.success) renderTable('customersList', json.data.customers, 'customer');
+  }
+
+  // --- MEDIA LIBRARY LOGIC ---
+  let targetInputId = null;
+
+  async function openMediaLibrary(targetId = null) {
+    targetInputId = targetId;
+    openModal('mediaModal');
+    fetchMedia();
+  }
+
+  async function fetchMedia() {
+    const json = await apiFetch(`${API_BASE}/upload`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (json.success) {
+      const grid = document.getElementById('mediaGrid');
+      const baseUrl = API_BASE.replace('/api', '');
+      grid.innerHTML = json.data.map(m => {
+        const isVideo = m.url.endsWith('.mp4');
+        const fullUrl = m.url.startsWith('http') ? m.url : baseUrl + m.url;
+        return `
+          <div class="media-item" onclick="selectMedia('${m.url}')">
+            ${isVideo ? `<video src="${fullUrl}"></video>` : `<img src="${fullUrl}">`}
+            <span class="m-type">${isVideo ? 'VIDEO' : 'IMG'}</span>
+          </div>
+        `;
+      }).join('');
+    }
+  }
+
+  window.selectMedia = (url) => {
+    if (targetInputId) {
+      const input = document.getElementById(targetInputId);
+      input.value = url;
+      // Trigger input event for preview
+      input.dispatchEvent(new Event('input'));
+    }
+    closeModal('mediaModal');
+  };
+
+  window.uploadMedia = async (input) => {
+    if (!input.files[0]) return;
+    const formData = new FormData();
+    formData.append('image', input.files[0]); // Using 'image' field for both images and videos
+
+    const json = await apiFetch(`${API_BASE}/upload/image`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}` },
+      body: formData
+    });
+    if (json.success) {
+      fetchMedia();
+      showToast('Média importé avec succès', 'success');
+    }
+  };
+
+  window.uploadAndSetImage = async (input, targetId) => {
+    if (!input.files[0]) return;
+    const formData = new FormData();
+    formData.append('image', input.files[0]);
+
+    // Show loading state
+    const btn = input.parentElement;
+    const originalText = btn.innerText;
+    btn.innerText = '...';
+
+    try {
+      const res = await fetch(`${API_BASE}/upload/image`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: formData
+      });
+      const json = await res.json();
+      if (json.success) {
+        document.getElementById(targetId).value = json.data.url;
+        btn.innerText = 'OK';
+        setTimeout(() => btn.innerText = originalText, 2000);
+      } else {
+        showToast('Erreur: ' + json.message, 'error');
+        btn.innerText = originalText;
+      }
+    } catch (e) { 
+      showToast('Erreur réseau', 'error');
+      btn.innerText = originalText;
+    }
+  };
+
+  // --- MERCHANDISING LOGIC ---
+  async function fetchSettings() {
+    const json = await apiFetch(`${API_BASE}/settings`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (json.success) {
+      const s = json.data;
+      const hForm = document.getElementById('heroForm');
+      hForm.type.value = s.hero.type;
+      hForm.url.value = s.hero.url;
+      hForm.title.value = s.hero.title;
+      
+      const aForm = document.getElementById('announcementForm');
+      aForm.text.value = s.announcement.text;
+    }
+  }
+
+  document.getElementById('heroForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = {
+      hero: {
+        type: formData.get('type'),
+        url: formData.get('url'),
+        title: formData.get('title')
+      }
+    };
+    updateSettings(data);
+  });
+
+  document.getElementById('announcementForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = {
+      announcement: {
+        text: new FormData(e.target).get('text'),
+        isActive: true
+      }
+    };
+    updateSettings(data);
+  });
+
+  async function updateSettings(data) {
+    const json = await apiFetch(`${API_BASE}/settings`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(data)
+    });
+    if (json.success) showToast('Configurations mises à jour', 'success');
+  }
+
+  // --- LOOKBOOK LOGIC ---
+  let currentHotspots = [];
+  let availableProducts = [];
+
+  async function fetchLookbooks() {
+    const json = await apiFetch(`${API_BASE}/lookbooks`);
+    if (json.success) renderTable('lookbookList', json.data, 'lookbook');
+  }
+
+  document.getElementById('lookbookImgUrl').addEventListener('input', (e) => {
+    const img = document.getElementById('previewImg');
+    if (e.target.value) {
+      img.src = e.target.value;
+      img.style.display = 'block';
+    }
+  });
+
+  document.getElementById('hotspotPreview').addEventListener('click', (e) => {
+    if (!document.getElementById('previewImg').src) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    
+    addHotspot(x, y);
+  });
+
+  function addHotspot(x, y) {
+    const id = Date.now();
+    currentHotspots.push({ id, x, y, product: '' });
+    renderHotspots();
+  }
+
+  async function renderHotspots() {
+    // Render dots on image
+    const container = document.getElementById('hotspotPreview');
+    container.querySelectorAll('.h-dot').forEach(d => d.remove());
+    
+    currentHotspots.forEach(h => {
+      const dot = document.createElement('div');
+      dot.className = 'h-dot';
+      dot.style.cssText = `position:absolute; left:${h.x}%; top:${h.y}%; width:12px; height:12px; background:white; border:2px solid var(--ink); border-radius:50%; transform:translate(-50%,-50%); pointer-events:none;`;
+      container.appendChild(dot);
+    });
+
+    // Render configuration list
+    if (availableProducts.length === 0) {
+      const resp = await fetch(`${API_BASE}/products?limit=100`);
+      const json = await resp.json();
+      availableProducts = json.data.products;
+    }
+
+    const list = document.getElementById('hotspotList');
+    list.innerHTML = currentHotspots.map(h => `
+      <div class="form-group" style="border:1px solid var(--line); padding:10px; background:var(--cream);">
+        <label class="form-label">Tag Product (X:${Math.round(h.x)}% Y:${Math.round(h.y)}%)</label>
+        <select class="form-input" onchange="updateHotspotProduct(${h.id}, this.value)">
+          <option value="">Sélectionner une pièce...</option>
+          ${availableProducts.map(p => `<option value="${p._id}" ${h.product === p._id ? 'selected' : ''}>${p.name}</option>`).join('')}
+        </select>
+        <button type="button" onclick="removeHotspot(${h.id})" style="color:var(--error); border:none; background:none; font-size:9px; margin-top:5px; cursor:pointer;">Supprimer</button>
+      </div>
+    `).join('');
+  }
+
+  window.updateHotspotProduct = (id, prodId) => {
+    const h = currentHotspots.find(h => h.id === id);
+    if (h) h.product = prodId;
+  };
+
+  window.removeHotspot = (id) => {
+    currentHotspots = currentHotspots.filter(h => h.id !== id);
+    renderHotspots();
+  };
+
+  document.getElementById('lookbookForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = {
+      title: formData.get('title'),
+      image: formData.get('image'),
+      hotspots: currentHotspots.map(h => ({ x: h.x, y: h.y, product: h.product }))
+    };
+
+    if (data.hotspots.some(h => !h.product)) return showToast('Veuillez taguer un produit pour chaque point.', 'error');
+
+    try {
+      const res = await fetch(`${API_BASE}/lookbooks`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify(data)
+      });
+      if ((await res.json()).success) {
+        showToast('Lookbook publié!', 'success');
+        closeModal('lookbookModal');
+        fetchLookbooks();
+        currentHotspots = [];
+      }
+    } catch (e) {}
+  });
+
+  // --- RENDERING ---
+
+  function renderTable(id, data, type) {
+    const tbody = document.getElementById(id);
+    if (!data || data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px">Aucune donnée disponible</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = data.map(item => {
+      if (type === 'order') return renderOrderRow(item);
+      if (type === 'product') return renderProductRow(item);
+      if (type === 'customer') return renderCustomerRow(item);
+      if (type === 'lookbook') return renderLookbookRow(item);
+    }).join('');
+  }
+
+  function renderLookbookRow(l) {
+    return `
+      <tr>
+        <td><img src="${l.image}" class="p-img"></td>
+        <td><strong>${l.title}</strong></td>
+        <td>${l.hotspots.length} Tags</td>
+        <td><span class="status s-active">${l.isActive ? 'Actif' : 'Masqué'}</span></td>
+        <td><button class="btn btn-outline" style="padding:4px 8px; color:var(--error)" onclick="deleteLookbook('${l._id}')">Supprimer</button></td>
+      </tr>
+    `;
+  }
+
+  window.deleteLookbook = async (id) => {
+    if (!confirm('Supprimer ce lookbook ?')) return;
+    await fetch(`${API_BASE}/lookbooks/${id}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+    fetchLookbooks();
+  };
+
+  // Store orders data for detail view
+  let allOrdersData = [];
+
+  function renderOrderRow(o) {
+    const name = o.customerInfo?.firstName ? `${o.customerInfo.firstName} ${o.customerInfo.lastName || ''}` : (o.customer?.firstName || 'N/A');
+    const phone = o.customerInfo?.phone || o.shippingAddress?.phone || '—';
+    return `
+      <tr>
+        <td>#${o.orderNumber}</td>
+        <td><strong>${name}</strong></td>
+        <td>${phone}</td>
+        <td>${new Date(o.createdAt).toLocaleDateString()}</td>
+        <td>DZD ${o.total.toLocaleString()}</td>
+        <td><span class="status s-${o.payment.status}">${o.payment.method === 'cash_on_delivery' ? 'COD' : 'CIB'}</span></td>
+        <td><span class="status s-${o.status}">${translateStatus(o.status)}</span></td>
+        <td><button class="btn btn-outline" style="padding:4px 8px" onclick="handleOrderAction('${o._id}')">Gérer</button></td>
+      </tr>
+    `;
+  }
+
+  let editingProductId = null;
+
+  async function openEditProductModal(id) {
+    editingProductId = id;
+    try {
+      const res = await fetch(`${API_BASE}/products/${id}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const json = await res.json();
+      if (json.success) {
+        const p = json.data.product;
+        const form = document.getElementById('productForm');
+        form.name.value = p.name;
+        form.basePrice.value = p.basePrice;
+        form.category.value = p.category?._id || p.category || '';
+        form.description.value = p.description;
+        form.bagImage.value = p.variants[0]?.images.bagImage || '';
+        form.modelImage.value = p.variants[0]?.images.modelImage || '';
+        
+        document.querySelector('#productModal h2').innerText = 'Éditer la Création';
+        openModal('productModal');
+      }
+    } catch (e) { showToast('Erreur de chargement', 'error'); }
+  }
+
+  // Handle modal logic
+  const originalOpenModal = openModal;
+  window.openModal = (id) => {
+    if (id === 'productModal' && !editingProductId) {
+      document.getElementById('productForm').reset();
+      document.querySelector('#productModal h2').innerText = 'Nouvelle Création MAIVÉ';
+    }
+    originalOpenModal(id);
+  };
+  
+  const originalCloseModal = closeModal;
+  window.closeModal = (id) => {
+    if (id === 'productModal') editingProductId = null;
+    originalCloseModal(id);
+  };
+
+  function renderProductRow(p) {
+    const totalStock = p.variants.reduce((sum, v) => sum + v.stock, 0);
+    const stockClass = totalStock < 5 ? 's-low' : (totalStock === 0 ? 's-out_of_stock' : 's-in_stock');
+    return `
+      <tr>
+        <td><img src="${p.variants[0]?.images.bagImage}" class="p-img"></td>
+        <td><strong>${p.name}</strong></td>
+        <td>${p.category?.name || 'Handbags'}</td>
+        <td>DZD ${p.basePrice.toLocaleString()}</td>
+        <td><span class="status ${stockClass}">${totalStock} en stock</span></td>
+        <td><span class="status s-active">Actif</span></td>
+        <td>
+          <button class="btn btn-outline" style="padding:4px 8px" onclick="openEditProductModal('${p._id}')">Éditer</button>
+          <button class="btn btn-outline" style="padding:4px 8px; color:var(--error)" onclick="deleteProduct('${p._id}')">Supprimer</button>
+        </td>
+      </tr>
+    `;
+  }
+
+  document.getElementById('productForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const productData = {
+      name: formData.get('name'),
+      basePrice: Number(formData.get('basePrice')),
+      category: formData.get('category'),
+      description: formData.get('description') || 'Pièce d\'exception MAIVÉ',
+      material: 'Cuir pleine fleur',
+      variants: [{
+        name: 'Standard',
+        hexCode: '#b8986a',
+        sku: editingProductId ? undefined : ('P-' + Math.random().toString(36).substr(2, 9).toUpperCase()),
+        stock: 10,
+        images: {
+          bagImage: formData.get('bagImage'),
+          modelImage: formData.get('modelImage')
+        }
+      }]
+    };
+
+    try {
+      const url = editingProductId ? `${API_BASE}/products/${editingProductId}` : `${API_BASE}/products`;
+      const method = editingProductId ? 'PUT' : 'POST';
+
+      const res = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(productData)
+      });
+      const json = await res.json();
+      if (json.success) {
+        showToast(editingProductId ? 'Produit mis à jour' : 'Produit ajouté avec succès', 'success');
+        closeModal('productModal');
+        fetchProducts();
+      } else {
+        showToast('Erreur: ' + json.message, 'error');
+      }
+    } catch (e) { showToast('Erreur de connexion au serveur', 'error'); }
+  });
+
+  async function deleteProduct(id) {
+    if (!confirm('Êtes-vous sûr de vouloir retirer cette pièce de l\'Atelier ?')) return;
+    try {
+      const res = await fetch(`${API_BASE}/products/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const json = await res.json();
+      if (json.success) {
+        fetchProducts();
+      }
+    } catch (e) { alert('Erreur lors de la suppression'); }
+  }
+
+  // --- ORDER ACTIONS ---
+
+  async function updateOrderStatus(id, newStatus) {
+    try {
+      const res = await fetch(`${API_BASE}/orders/${id}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ status: newStatus, note: 'Mis à jour via Dashboard Admin' })
+      });
+      const json = await res.json();
+      if (json.success) {
+        showToast('Commande mise à jour', 'success');
+        fetchAllOrders();
+      }
+    } catch (e) { showToast('Erreur lors de la mise à jour', 'error'); }
+  }
+
+  // Order Detail Modal
+  window.handleOrderAction = (id) => {
+    const o = allOrdersData.find(order => order._id === id);
+    if (!o) { showToast('Commande introuvable', 'error'); return; }
+
+    const name = o.customerInfo?.firstName ? `${o.customerInfo.firstName} ${o.customerInfo.lastName || ''}` : 'N/A';
+    const phone = o.customerInfo?.phone || o.shippingAddress?.phone || '—';
+    const email = o.customerInfo?.email || '—';
+    const addr = o.shippingAddress ? `${o.shippingAddress.address}, ${o.shippingAddress.wilaya}` : '—';
+    const itemsHtml = (o.items || []).map(i => `<tr><td>${i.name}</td><td>${i.quantity}</td><td>DZD ${(i.price || 0).toLocaleString()}</td></tr>`).join('');
+
+    document.getElementById('orderDetailTitle').innerText = `Commande #${o.orderNumber}`;
+    document.getElementById('orderDetailContent').innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:25px;">
+        <div>
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px;">Client</p>
+          <p><strong>${name}</strong></p>
+        </div>
+        <div>
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px;">Téléphone</p>
+          <p><strong>${phone}</strong></p>
+        </div>
+        <div>
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px;">Email</p>
+          <p>${email}</p>
+        </div>
+        <div>
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:5px;">Adresse de Livraison</p>
+          <p>${addr}</p>
+        </div>
+      </div>
+      <div style="margin-bottom:25px;">
+        <p style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;">Articles Commandés</p>
+        <table style="width:100%;font-size:13px;"><thead><tr><th style="text-align:left;padding:8px 0;">Produit</th><th style="text-align:left;padding:8px 0;">Qté</th><th style="text-align:left;padding:8px 0;">Prix</th></tr></thead><tbody>${itemsHtml || '<tr><td colspan="3">Aucun article</td></tr>'}</tbody></table>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:20px;margin-bottom:15px;">
+        <div>
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);">Total</p>
+          <p style="font-size:22px;font-family:'Cormorant Garamond',serif;"><strong>DZD ${o.total.toLocaleString()}</strong></p>
+        </div>
+        <div>
+          <p style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);">Statut Actuel</p>
+          <span class="status s-${o.status}" style="font-size:12px;">${translateStatus(o.status)}</span>
+        </div>
+      </div>
+      <p style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:10px;">Changer le Statut</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn" style="padding:8px 16px;font-size:9px;" onclick="updateOrderStatus('${o._id}','processing');closeModal('orderDetailModal')">En Préparation</button>
+        <button class="btn" style="padding:8px 16px;font-size:9px;background:var(--camel);" onclick="updateOrderStatus('${o._id}','shipped');closeModal('orderDetailModal')">Expédiée</button>
+        <button class="btn" style="padding:8px 16px;font-size:9px;background:#4a7c59;" onclick="updateOrderStatus('${o._id}','delivered');closeModal('orderDetailModal')">Livrée</button>
+        <button class="btn btn-outline" style="padding:8px 16px;font-size:9px;color:var(--error);border-color:var(--error);" onclick="updateOrderStatus('${o._id}','cancelled');closeModal('orderDetailModal')">Annulée</button>
+      </div>
+    `;
+    openModal('orderDetailModal');
+  };
+
+  function renderCustomerRow(c) {
+    return `
+      <tr>
+        <td><strong>${c.firstName} ${c.lastName}</strong></td>
+        <td>${c.email}</td>
+        <td>${new Date(c.createdAt).toLocaleDateString()}</td>
+        <td>${c.orderCount || 0}</td>
+        <td>DZD ${(c.totalSpent || 0).toLocaleString()}</td>
+        <td><span class="status s-active">Actif</span></td>
+      </tr>
+    `;
+  }
+
+  function translateStatus(s) {
+    const map = { pending: 'Attente', processing: 'Atelier', shipped: 'Route', delivered: 'Livré', cancelled: 'Annulé' };
+    return map[s] || s;
+  }
+
+  // Load Categories for modal
+  async function loadCategories() {
+    try {
+      const res = await fetch(`${API_BASE}/categories`);
+      const json = await res.json();
+      if (json.success && json.data.categories) {
+        // Update product modal dropdown
+        document.getElementById('categorySelect').innerHTML = json.data.categories.map(c => 
+          `<option value="${c._id}">${c.name}</option>`
+        ).join('');
+        
+        // Update categories table if active
+        const list = document.getElementById('categoriesList');
+        if (list) {
+          list.innerHTML = json.data.categories.map(c => `
+            <tr>
+              <td><strong>${c.name}</strong></td>
+              <td>${c.description || '-'}</td>
+              <td>${c.order}</td>
+              <td><span class="status ${c.isActive ? 's-active' : 's-cancelled'}">${c.isActive ? 'Actif' : 'Inactif'}</span></td>
+              <td>
+                <button class="btn btn-outline" style="padding:4px 8px" onclick="deleteCategory('${c._id}')">Supprimer</button>
+              </td>
+            </tr>
+          `).join('');
+        }
+      }
+    } catch (e) { console.error('Error fetching categories:', e); }
+  }
+
+  async function deleteCategory(id) {
+    if (!confirm('Êtes-vous sûr ? Cela n’affectera pas les produits déjà existants.')) return;
+    try {
+      const res = await fetch(`${API_BASE}/categories/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const json = await res.json();
+      if (json.success) loadCategories();
+    } catch (e) { showToast('Erreur', 'error'); }
+  }
+
+  document.getElementById('categoryForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = {
+      name: formData.get('name'),
+      description: formData.get('description'),
+      order: Number(formData.get('order')),
+      isActive: true
+    };
+    try {
+      const res = await fetch(`${API_BASE}/categories`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify(data)
+      });
+      const json = await res.json();
+      if (json.success) {
+        showToast('Catégorie créée', 'success');
+        closeModal('categoryModal');
+        loadCategories();
+      }
+    } catch (e) { showToast('Erreur', 'error'); }
+  });
+
+  // Initial Load
+  switchView('dashboard');
+  loadCategories();
+
+  // GSAP Entrance
+  gsap.from('aside', {xPercent:-100, duration:1, ease:'power3.inOut'});
+</script>
+</body>
+</html>
