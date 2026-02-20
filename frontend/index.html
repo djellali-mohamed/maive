@@ -190,6 +190,7 @@
         display: flex;
         align-items: center;
         gap: 32px;
+        width: 30%;
       }
       .hb {
         display: flex;
@@ -218,11 +219,12 @@
       }
 
       .logo {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        text-decoration: none;
         text-align: center;
+        text-decoration: none;
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
       .lm {
         font-family: "Cormorant Garamond", serif;
@@ -250,6 +252,8 @@
         display: flex;
         align-items: center;
         gap: 24px;
+        justify-content: flex-end;
+        width: 30%;
       }
       .ib {
         background: none;
@@ -1922,6 +1926,17 @@
           padding-left: 20px;
           padding-right: 20px;
         }
+        .hl {
+          width: 25%;
+          gap: 16px;
+        }
+        .logo {
+          width: 50%;
+        }
+        .hr2 {
+          width: 25%;
+          gap: 16px;
+        }
         .lm {
           padding-left: 20px;
           padding-right: 20px;
@@ -2193,7 +2208,7 @@
     <!-- HERO VIDEO SECTION -->
     <section class="hero-video-section" id="hero">
       <div class="hero-video-container">
-    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="none" poster="images/products/img_3548.jpg">
+    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="none" poster="images/hero-poster.jpg">
       <source data-src="videos/hero-video.mp4" type="video/mp4">
     </video>
   </div>
@@ -2788,11 +2803,10 @@
             
             const hvt1 = document.getElementById('hvt1');
             if (hvt1 && s.hero?.title) {
-              // Only update if the title is drastically different to preserve formatting (<em> etc)
-              if (s.hero.title.includes("Atelier")) {
+              // Preserve the strong stylized title if it hasn't been deliberately changed
+              if (s.hero.title !== "MAIVÉ — L’Atelier") {
                 hvt1.innerHTML = s.hero.title;
               }
-              // Else keep the beautiful hardcoded L'Essence de Votre Renaissance
             }
             
             // Update Announcement (Marquee)
