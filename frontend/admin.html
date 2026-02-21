@@ -356,6 +356,7 @@ textarea.form-input{height:100px;resize:none;}
       <h2 style="font-family:'Cormorant Garamond', serif;">Nouvelle Création MAIVÉ</h2>
     </div>
     <form id="productForm">
+      <input type="hidden" name="sku">
       <div class="form-group">
         <label class="form-label">Nom de la pièce</label>
         <input type="text" name="name" class="form-input" required placeholder="ex: Tote Luxe Noir">
@@ -889,6 +890,7 @@ textarea.form-input{height:100px;resize:none;}
         form.material.value = p.material || 'Cuir pleine fleur';
         form.description.value = p.description;
         form.status.value = p.status || 'draft';
+        form.sku.value = p.variants[0]?.sku || '';
         form.stock.value = p.variants[0]?.stock || 0;
         form.variantName.value = p.variants[0]?.name || 'Standard';
         form.hexCode.value = p.variants[0]?.hexCode || '#000000';
@@ -949,7 +951,7 @@ textarea.form-input{height:100px;resize:none;}
       variants: [{
         name: formData.get('variantName') || 'Standard',
         hexCode: formData.get('hexCode') || '#000000',
-        sku: editingProductId ? undefined : ('P-' + Math.random().toString(36).substr(2, 9).toUpperCase()),
+        sku: formData.get('sku') || ('P-' + Math.random().toString(36).substr(2, 9).toUpperCase()),
         stock: Number(formData.get('stock')) || 0,
         images: {
           bagImage: formData.get('bagImage'),
