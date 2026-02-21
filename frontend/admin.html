@@ -534,7 +534,7 @@ textarea.form-input{height:100px;resize:none;}
   }
 
   async function fetchProducts() {
-    const json = await apiFetch(`${API_BASE}/products?status=active&limit=100`, {
+    const json = await apiFetch(`${API_BASE}/products?limit=100`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (json.success) renderTable('productsList', json.data.products, 'product');

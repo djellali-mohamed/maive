@@ -21,7 +21,10 @@ router.get('/', async (req, res) => {
       status = 'active'
     } = req.query;
     
-    const query = { status };
+    const query = {};
+    if (status !== 'all') {
+      query.status = status;
+    }
     
     if (category) query.category = category;
     if (minPrice || maxPrice) {
