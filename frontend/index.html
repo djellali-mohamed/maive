@@ -83,43 +83,6 @@
         background: var(--camel);
         transition: width 0.05s linear;
       }
-      /* CURSOR */
-      body {
-        cursor: none;
-      }
-      #c1,
-      #c2 {
-        position: fixed;
-        top: 0;
-        left: 0;
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 9500;
-        transform: translate(-50%, -50%);
-      }
-      #c1 {
-        width: 7px;
-        height: 7px;
-        background: var(--camel);
-      }
-      #c2 {
-        width: 38px;
-        height: 38px;
-        border: 1px solid rgba(184, 152, 106, 0.4);
-        background: transparent;
-        transition:
-          width 0.3s var(--expo),
-          height 0.3s var(--expo),
-          border-color 0.3s;
-      }
-      .ch #c2 {
-        width: 56px;
-        height: 56px;
-        border-color: var(--camel);
-      }
-      .ch #c1 {
-        transform: translate(-50%, -50%) scale(0);
-      }
       /* GRAIN */
       .grain {
         position: fixed;
@@ -259,7 +222,7 @@
       .ib {
         background: none;
         border: none;
-        cursor: none;
+        cursor: pointer;
         color: var(--ink);
         transition: color 0.3s;
         position: relative;
@@ -745,7 +708,7 @@
         padding: 0 14px 24px;
         border-right: 1px solid var(--line);
         text-decoration: none;
-        cursor: none;
+        cursor: pointer;
         position: relative;
         transition: background 0.3s;
         overflow: hidden;
@@ -824,7 +787,7 @@
       .fb {
         background: none;
         border: none;
-        cursor: none;
+        cursor: pointer;
         font-family: "DM Mono", monospace;
         font-size: 9px;
         letter-spacing: 0.18em;
@@ -880,7 +843,7 @@
       .cn-s button {
         background: none;
         border: none;
-        cursor: none;
+        cursor: pointer;
         font: inherit;
         letter-spacing: inherit;
         text-transform: inherit;
@@ -931,7 +894,7 @@
         display: flex;
         align-items: center;
         gap: 10px;
-        cursor: none;
+        cursor: pointer;
         transition: color 0.3s;
       }
       .filter-opt label:hover {
@@ -952,7 +915,7 @@
       /* CARD */
       .card {
         background: var(--cream);
-        cursor: none;
+        cursor: pointer;
         position: relative;
         opacity: 0;
         transform: translateY(30px);
@@ -2120,8 +2083,6 @@
   </head>
   <body>
     <div class="grain"></div>
-    <div id="c1"></div>
-    <div id="c2"></div>
 
     <!-- LOADER -->
     <div id="loader">
@@ -2646,35 +2607,6 @@
           });
         }
       }, 55);
-
-      // CURSOR
-      const c1 = document.getElementById("c1"),
-        c2 = document.getElementById("c2");
-      let mx = 0,
-        my = 0,
-        cx = 0,
-        cy = 0;
-      window.addEventListener("mousemove", (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-      });
-      (function ac() {
-        cx += (mx - cx) * 0.85;
-        cy += (my - cy) * 0.85;
-        c1.style.left = mx + "px";
-        c1.style.top = my + "px";
-        c2.style.left = cx + "px";
-        c2.style.top = cy + "px";
-        requestAnimationFrame(ac);
-      })();
-      document.querySelectorAll("a,button,.card,.cat-item").forEach((el) => {
-        el.addEventListener("mouseenter", () =>
-          document.body.classList.add("ch"),
-        );
-        el.addEventListener("mouseleave", () =>
-          document.body.classList.remove("ch"),
-        );
-      });
 
       // LENIS
       const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
