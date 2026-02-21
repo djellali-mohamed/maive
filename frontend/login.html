@@ -128,7 +128,11 @@
             const errorMsg = document.getElementById('errorMsg');
 
             try {
-                const res = await fetch('http://localhost:5000/api/auth/login', {
+                const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+                    ? 'http://localhost:5000/api'
+                    : '/api';
+
+                const res = await fetch(`${API_BASE}/auth/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email, password })

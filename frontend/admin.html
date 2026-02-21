@@ -273,6 +273,21 @@ textarea.form-input{height:100px;resize:none;}
       </table>
     </div>
   </section>
+  <!-- CATEGORIES VIEW -->
+  <section id="view-categories" class="view">
+    <div class="section-header">
+      <h2 class="section-title">Gestion des Catégories</h2>
+      <button class="btn" onclick="openModal('categoryModal')">+ Nouvelle Catégorie</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Nom</th><th>Description</th><th>Ordre</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="categoriesList"></tbody>
+      </table>
+    </div>
+  </section>
 </main>
 
 <!-- LOOKBOOK MODAL -->
