@@ -2078,6 +2078,38 @@
       .hs-mat { font-family: "DM Mono", monospace; font-size: 7px; color: var(--camel); text-transform: uppercase; margin-bottom: 4px; }
       .hs-name { font-family: "Cormorant Garamond", serif; font-size: 14px; color: var(--ink); margin-bottom: 6px; }
       .hs-price { font-size: 11px; color: var(--muted); }
+
+      /* ===== MOBILE RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        /* Fix the sticky scroll: Make header scroll up naturally with page */
+        header { position: absolute; }
+        
+        /* Adjust header height and padding for smaller screens */
+        header .hi { padding: 0 20px; height: 60px; }
+        
+        /* Left utilities (Menu/Search) */
+        .hl { width: 25%; gap: 15px; }
+        .hl span { display: none; /* Hide "Menu" text */ }
+        
+        /* Center Logo */
+        .logo { width: 50%; }
+        .lm { font-size: 18px; letter-spacing: 0.3em; }
+        .ls { display: none; /* Hide sub-slogan to save space */ }
+        .logo:hover .lm { letter-spacing: 0.4em; }
+        
+        /* Right utilities (Wishlist/Cart/WhatsApp) */
+        .hr2 { width: 25%; gap: 12px; }
+        .wa { padding: 8px; border-radius: 50%; }
+        .wa span { display: none; /* Hide "WhatsApp" text */ }
+        .wa svg { width: 14px; height: 14px; margin: 0; }
+        
+        /* Collection Video text sizing */
+        .collection-video-title { font-size: 28px; padding: 0 20px; }
+        .collection-video-subtitle { font-size: 13px; padding: 0 30px; }
+        
+        /* Adjust Statement text */
+        .stmt .sq { font-size: 24px; }
+      }
     </style>
   </head>
   <body>
