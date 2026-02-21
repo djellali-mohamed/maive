@@ -360,7 +360,7 @@ textarea.form-input{height:100px;resize:none;}
         <label class="form-label">Nom de la pièce</label>
         <input type="text" name="name" class="form-input" required placeholder="ex: Tote Luxe Noir">
       </div>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px;">
         <div class="form-group">
           <label class="form-label">Prix (DZD)</label>
           <input type="number" name="basePrice" class="form-input" required>
@@ -368,6 +368,10 @@ textarea.form-input{height:100px;resize:none;}
         <div class="form-group">
           <label class="form-label">Catégorie</label>
           <select name="category" id="categorySelect" class="form-input" required></select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Matière</label>
+          <input type="text" name="material" class="form-input" required placeholder="ex: Cuir d'autruche">
         </div>
       </div>
       <div class="form-group">
@@ -859,6 +863,7 @@ textarea.form-input{height:100px;resize:none;}
         form.name.value = p.name;
         form.basePrice.value = p.basePrice;
         form.category.value = p.category?._id || p.category || '';
+        form.material.value = p.material || 'Cuir pleine fleur';
         form.description.value = p.description;
         form.bagImage.value = p.variants[0]?.images.bagImage || '';
         form.modelImage.value = p.variants[0]?.images.modelImage || '';
@@ -912,7 +917,7 @@ textarea.form-input{height:100px;resize:none;}
       basePrice: Number(formData.get('basePrice')),
       category: formData.get('category'),
       description: formData.get('description') || 'Pièce d\'exception MAIVÉ',
-      material: 'Cuir pleine fleur',
+      material: formData.get('material') || 'Cuir pleine fleur',
       variants: [{
         name: 'Standard',
         hexCode: '#b8986a',

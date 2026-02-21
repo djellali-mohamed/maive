@@ -274,7 +274,7 @@ const seedData = async () => {
     await Settings.create({
       hero: {
         type: 'video',
-        url: 'https://video.wixstatic.com/video/50537f_93c52e50664b49cb86ec621d17d1e8db/1080p/mp4/file.mp4',
+        url: 'videos/hero-video.mp4',
         title: "L'ESSENCE DE VOTRE RENAISSANCE",
         subtitle: 'Éclat Intemporel, Savoir-faire Algérien'
       },
