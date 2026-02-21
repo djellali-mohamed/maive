@@ -374,6 +374,29 @@ textarea.form-input{height:100px;resize:none;}
           <input type="text" name="material" class="form-input" required placeholder="ex: Cuir d'autruche">
         </div>
       </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:20px;">
+        <div class="form-group">
+          <label class="form-label">Statut</label>
+          <select name="status" class="form-input" required>
+            <option value="active">Actif (Visible)</option>
+            <option value="draft">Brouillon (Caché)</option>
+            <option value="out_of_stock">Rupture de stock</option>
+            <option value="discontinued">Fin de série</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Stock Initial</label>
+          <input type="number" name="stock" class="form-input" required value="0" min="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nom de la Couleur</label>
+          <input type="text" name="variantName" class="form-input" required placeholder="ex: Noir Standard" value="Standard">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Code HEX Couleur</label>
+          <input type="color" name="hexCode" class="form-input" required value="#000000" style="padding: 2px; height: 38px;">
+        </div>
+      </div>
       <div class="form-group">
         <label class="form-label">Description</label>
         <textarea name="description" class="form-input" required></textarea>
@@ -865,6 +888,10 @@ textarea.form-input{height:100px;resize:none;}
         form.category.value = p.category?._id || p.category || '';
         form.material.value = p.material || 'Cuir pleine fleur';
         form.description.value = p.description;
+        form.status.value = p.status || 'draft';
+        form.stock.value = p.variants[0]?.stock || 0;
+        form.variantName.value = p.variants[0]?.name || 'Standard';
+        form.hexCode.value = p.variants[0]?.hexCode || '#000000';
         form.bagImage.value = p.variants[0]?.images.bagImage || '';
         form.modelImage.value = p.variants[0]?.images.modelImage || '';
         
@@ -900,7 +927,7 @@ textarea.form-input{height:100px;resize:none;}
         <td>${p.category?.name || 'Handbags'}</td>
         <td>DZD ${p.basePrice.toLocaleString()}</td>
         <td><span class="status ${stockClass}">${totalStock} en stock</span></td>
-        <td><span class="status s-active">Actif</span></td>
+        <td><span class="status s-${p.status === 'active' ? 'active' : 'draft'}">${p.status === 'active' ? 'Actif' : 'Caché'}</span></td>
         <td>
           <button class="btn btn-outline" style="padding:4px 8px" onclick="openEditProductModal('${p._id}')">Éditer</button>
           <button class="btn btn-outline" style="padding:4px 8px; color:var(--error)" onclick="deleteProduct('${p._id}')">Supprimer</button>
@@ -918,11 +945,12 @@ textarea.form-input{height:100px;resize:none;}
       category: formData.get('category'),
       description: formData.get('description') || 'Pièce d\'exception MAIVÉ',
       material: formData.get('material') || 'Cuir pleine fleur',
+      status: formData.get('status') || 'draft',
       variants: [{
-        name: 'Standard',
-        hexCode: '#b8986a',
+        name: formData.get('variantName') || 'Standard',
+        hexCode: formData.get('hexCode') || '#000000',
         sku: editingProductId ? undefined : ('P-' + Math.random().toString(36).substr(2, 9).toUpperCase()),
-        stock: 10,
+        stock: Number(formData.get('stock')) || 0,
         images: {
           bagImage: formData.get('bagImage'),
           modelImage: formData.get('modelImage')

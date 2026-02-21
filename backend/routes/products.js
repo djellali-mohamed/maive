@@ -156,7 +156,7 @@ router.get('/:id', async (req, res) => {
 // Create product (admin only)
 router.post('/', authenticate, requireAdmin, async (req, res) => {
   try {
-    const { name, basePrice, category, description, material, bagImage, modelImage } = req.body;
+    const { name, basePrice, category, description, material, status, bagImage, modelImage, variants } = req.body;
     
     // Basic validation
     if (!name || !basePrice || !category) {
@@ -169,6 +169,7 @@ router.post('/', authenticate, requireAdmin, async (req, res) => {
       category,
       description,
       material: material || 'Cuir pleine fleur',
+      status: status || 'draft',
       createdBy: req.user._id,
       variants: req.body.variants || []
     };
@@ -203,22 +204,21 @@ router.post('/', authenticate, requireAdmin, async (req, res) => {
 // Update product (admin only)
 router.put('/:id', authenticate, requireAdmin, async (req, res) => {
   try {
-    const { name, basePrice, category, description, material, bagImage, modelImage } = req.body;
-    const updateData = { name, basePrice, category, description, material: material || 'Cuir pleine fleur', updatedAt: Date.now() };
+    const { name, basePrice, category, description, material, status, variants } = req.body;
+    
+    const updateData = { 
+      name, 
+      basePrice, 
+      category, 
+      description, 
+      material: material || 'Cuir pleine fleur', 
+      status: status || 'draft',
+      updatedAt: Date.now() 
+    };
 
-    // Find the product first to check variants
-    const product = await Product.findById(req.params.id);
-    if (!product) return res.status(404).json({ success: false, message: 'Pièce introuvable' });
-
-    // Sync simple form images to the first variant if needed
-    if (bagImage || modelImage) {
-      if (product.variants.length === 0) {
-        product.variants.push({ name: 'Standard', sku: `SKU-${Date.now()}`, images: { bagImage, modelImage } });
-      } else {
-        if (bagImage) product.variants[0].images.bagImage = bagImage;
-        if (modelImage) product.variants[0].images.modelImage = modelImage;
-      }
-      updateData.variants = product.variants;
+    // Replace variants block entirely if provided from frontend
+    if (variants && Array.isArray(variants) && variants.length > 0) {
+      updateData.variants = variants;
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(
