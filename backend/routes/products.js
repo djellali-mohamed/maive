@@ -153,7 +153,7 @@ router.get('/:id', async (req, res) => {
 // Create product (admin only)
 router.post('/', authenticate, requireAdmin, async (req, res) => {
   try {
-    const { name, basePrice, category, description, bagImage, modelImage } = req.body;
+    const { name, basePrice, category, description, material, bagImage, modelImage } = req.body;
     
     // Basic validation
     if (!name || !basePrice || !category) {
@@ -165,6 +165,7 @@ router.post('/', authenticate, requireAdmin, async (req, res) => {
       basePrice,
       category,
       description,
+      material: material || 'Cuir pleine fleur',
       createdBy: req.user._id,
       variants: req.body.variants || []
     };
@@ -199,8 +200,8 @@ router.post('/', authenticate, requireAdmin, async (req, res) => {
 // Update product (admin only)
 router.put('/:id', authenticate, requireAdmin, async (req, res) => {
   try {
-    const { name, basePrice, category, description, bagImage, modelImage } = req.body;
-    const updateData = { name, basePrice, category, description, updatedAt: Date.now() };
+    const { name, basePrice, category, description, material, bagImage, modelImage } = req.body;
+    const updateData = { name, basePrice, category, description, material: material || 'Cuir pleine fleur', updatedAt: Date.now() };
 
     // Find the product first to check variants
     const product = await Product.findById(req.params.id);
