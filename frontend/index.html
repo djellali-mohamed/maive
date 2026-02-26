@@ -1808,7 +1808,7 @@
       .checkout-spinner {
         width: 14px;
         height: 14px;
-        border: 2px solid rgba(255,255,255,0.3);
+        border: 2px solid rgba(255, 255, 255, 0.3);
         border-top-color: white;
         border-radius: 50%;
         animation: spin 0.8s linear infinite;
@@ -1817,7 +1817,7 @@
       .checkout-submit.loading .checkout-spinner {
         display: block;
       }
-      
+
       /* THANKS STATE */
       .checkout-success {
         display: none;
@@ -2010,8 +2010,14 @@
         animation: h-pulse 2s infinite;
       }
       @keyframes h-pulse {
-        0% { transform: scale(0.6); opacity: 1; }
-        100% { transform: scale(1.8); opacity: 0; }
+        0% {
+          transform: scale(0.6);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1.8);
+          opacity: 0;
+        }
       }
       .hotspot:hover {
         background: var(--camel);
@@ -2025,7 +2031,7 @@
         padding: 12px 18px;
         width: 220px;
         border: 1px solid var(--line);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         opacity: 0;
         visibility: hidden;
         transform: translateX(-10px);
@@ -2038,46 +2044,274 @@
         visibility: visible;
         transform: translateX(0);
       }
-      .hs-mat { font-family: "DM Mono", monospace; font-size: 7px; color: var(--camel); text-transform: uppercase; margin-bottom: 4px; }
-      .hs-name { font-family: "Cormorant Garamond", serif; font-size: 14px; color: var(--ink); margin-bottom: 6px; }
-      .hs-price { font-size: 11px; color: var(--muted); }
+      .hs-mat {
+        font-family: "DM Mono", monospace;
+        font-size: 7px;
+        color: var(--camel);
+        text-transform: uppercase;
+        margin-bottom: 4px;
+      }
+      .hs-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 14px;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+      .hs-price {
+        font-size: 11px;
+        color: var(--muted);
+      }
 
       /* ===== MOBILE RESPONSIVE ===== */
       @media (max-width: 768px) {
         /* Fix the sticky scroll: Make header scroll up naturally with page */
-        header { position: absolute; }
-        
+        header {
+          position: absolute;
+        }
+
         /* Adjust header height and padding for smaller screens */
-        header .hi { padding: 0 20px; height: 60px; }
-        
+        header .hi {
+          padding: 0 20px;
+          height: 60px;
+        }
+
         /* Left utilities (Menu/Search) */
-        .hl { width: 25%; gap: 15px; }
-        .hl span { display: none; /* Hide "Menu" text */ }
-        
+        .hl {
+          width: 25%;
+          gap: 15px;
+        }
+        .hl span {
+          display: none; /* Hide "Menu" text */
+        }
+
         /* Center Logo */
-        .logo { width: 50%; }
-        .lm { font-size: 18px; letter-spacing: 0.3em; }
-        .ls { display: none; /* Hide sub-slogan to save space */ }
-        .logo:hover .lm { letter-spacing: 0.4em; }
-        
+        .logo {
+          width: 50%;
+        }
+        .lm {
+          font-size: 18px;
+          letter-spacing: 0.3em;
+        }
+        .ls {
+          display: none; /* Hide sub-slogan to save space */
+        }
+        .logo:hover .lm {
+          letter-spacing: 0.4em;
+        }
+
         /* Right utilities (Wishlist/Cart/WhatsApp) */
-        .hr2 { width: 25%; gap: 12px; }
-        .wa { padding: 8px; border-radius: 50%; }
-        .wa span { display: none; /* Hide "WhatsApp" text */ }
-        .wa svg { width: 14px; height: 14px; margin: 0; }
-        
+        .hr2 {
+          width: 25%;
+          gap: 12px;
+        }
+        .wa {
+          padding: 8px;
+          border-radius: 50%;
+        }
+        .wa span {
+          display: none; /* Hide "WhatsApp" text */
+        }
+        .wa svg {
+          width: 14px;
+          height: 14px;
+          margin: 0;
+        }
+
         /* Collection Video text sizing */
-        .collection-video-title { font-size: 28px; padding: 0 20px; }
-        .collection-video-subtitle { font-size: 13px; padding: 0 30px; }
-        
+        .collection-video-title {
+          font-size: 28px;
+          padding: 0 20px;
+        }
+        .collection-video-subtitle {
+          font-size: 13px;
+          padding: 0 30px;
+        }
+
         /* Adjust Statement text */
-        .stmt .sq { font-size: 24px; }
-        
+        .stmt .sq {
+          font-size: 24px;
+        }
+
         /* Mobile Collection Nav Fix (Stop overlap & stop sticky scrolling) */
-        .col-nav { position: relative; top: 0; }
-        .cn-t { flex-direction: column; align-items: flex-start; gap: 15px; padding: 15px 20px; }
-        .cn-f { flex-wrap: wrap; gap: 15px; }
-        .cn-b { padding: 10px 20px 14px; }
+        .col-nav {
+          position: relative;
+          top: 0;
+        }
+        .cn-t {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 15px;
+          padding: 15px 20px;
+        }
+        .cn-f {
+          flex-wrap: wrap;
+          gap: 15px;
+        }
+        .cn-b {
+          padding: 10px 20px 14px;
+        }
+      }
+      /* PRODUCT DETAILS MODAL */
+      .product-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(247, 243, 238, 0.85);
+        backdrop-filter: blur(10px);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s var(--expo), visibility 0.4s;
+      }
+      .product-modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      .product-modal {
+        background: var(--cream);
+        width: 90%;
+        max-width: 900px;
+        position: relative;
+        transform: translateY(30px);
+        transition: transform 0.5s var(--expo);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        border: 1px solid var(--line);
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .product-modal-overlay.active .product-modal {
+        transform: translateY(0);
+      }
+      .product-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        z-index: 10;
+        background: rgba(247, 243, 238, 0.8);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .product-modal-close svg {
+        width: 20px;
+        height: 20px;
+        stroke: var(--ink);
+      }
+      .product-modal-content {
+        display: flex;
+        flex-direction: row;
+      }
+      .product-modal-gallery {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+      }
+      .product-modal-gallery img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
+      .product-modal-info {
+        flex: 1;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .pm-material {
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--camel);
+        margin-bottom: 8px;
+      }
+      .pm-name {
+        font-family: "Cormorant Garamond", serif;
+        font-size: 36px;
+        font-weight: 300;
+        color: var(--ink);
+        line-height: 1.2;
+        margin-bottom: 12px;
+      }
+      .pm-price {
+        font-family: "DM Sans", sans-serif;
+        font-size: 18px;
+        color: var(--muted);
+        font-weight: 300;
+        margin-bottom: 30px;
+      }
+      .pm-swatches {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 8px;
+      }
+      .pm-swatch-name {
+        font-family: "DM Mono", monospace;
+        font-size: 9px;
+        color: var(--muted);
+        letter-spacing: 0.12em;
+        margin-bottom: 30px;
+      }
+      .pm-add-btn {
+        background: var(--ink);
+        color: var(--cream);
+        font-family: "DM Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        border: none;
+        cursor: pointer;
+        padding: 18px;
+        transition: background 0.3s;
+        margin-bottom: 30px;
+      }
+      .pm-add-btn:hover {
+        background: var(--camel);
+      }
+      .pm-desc {
+        font-family: "DM Sans", sans-serif;
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.6;
+        border-top: 1px solid var(--line);
+        padding-top: 24px;
+      }
+      .pm-desc ul {
+        margin-top: 12px;
+        list-style-type: none;
+        padding-left: 0;
+      }
+      .pm-desc li {
+        position: relative;
+        padding-left: 14px;
+        margin-bottom: 6px;
+      }
+      .pm-desc li::before {
+        content: "·";
+        position: absolute;
+        left: 0;
+        color: var(--camel);
+        font-weight: bold;
+      }
+      @media (max-width: 768px) {
+        .product-modal-content {
+          flex-direction: column;
+        }
+        .product-modal-info {
+          padding: 24px;
+        }
+        .pm-name {
+          font-size: 28px;
+        }
       }
     </style>
   </head>
@@ -2122,9 +2356,14 @@
             </svg>
           </button>
           <button class="ib cart-btn" id="cartBtn" aria-label="Voir le panier">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 6h15l-1.5 9h-12L6 6z"/><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M6 6L5 3H2"/></svg>
-        <span class="cart-count" id="cartCount">0</span>
-      </button>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M6 6h15l-1.5 9h-12L6 6z" />
+              <circle cx="9" cy="20" r="1.5" />
+              <circle cx="18" cy="20" r="1.5" />
+              <path d="M6 6L5 3H2" />
+            </svg>
+            <span class="cart-count" id="cartCount">0</span>
+          </button>
           <a href="https://wa.me/213XXXXXXXXX" class="wa" target="_blank">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path
@@ -2208,10 +2447,19 @@
     <!-- HERO VIDEO SECTION -->
     <section class="hero-video-section" id="hero">
       <div class="hero-video-container">
-    <video class="hero-video" id="heroVideo" autoplay muted loop playsinline preload="none" poster="images/hero-poster.jpg">
-      <source data-src="videos/hero-video.mp4" type="video/mp4">
-    </video>
-  </div>
+        <video
+          class="hero-video"
+          id="heroVideo"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="none"
+          poster="images/hero-poster.jpg"
+        >
+          <source data-src="videos/hero-video.mp4" type="video/mp4" />
+        </video>
+      </div>
       <div class="hero-video-overlay"></div>
       <div class="hero-video-vignette"></div>
       <div class="hero-video-content">
@@ -2314,8 +2562,6 @@
         </a>
       </div>
     </div>
-
-
 
     <!-- COLLECTION VIDEO SECTION -->
     <section class="collection-video-section" id="artisanat">
@@ -2431,15 +2677,41 @@
           <p class="fbn">MAIVÉ</p>
           <p class="fbs">L'ESSENCE DE VOTRE RENAISSANCE</p>
           <div class="fso">
-            <a href="https://www.instagram.com/maive_officiel?igsh=bmk3ZGc3cWtjMWpu" target="_blank" rel="noopener">IG</a><a href="https://www.tiktok.com/@maive__1?lang=fr&is_from_webapp=1&sender_device=mobile&sender_web_id=7609195699040732690" target="_blank" rel="noopener">TK</a><a href="#">FB</a
-            ><a href="https://wa.me/213549504680" target="_blank" rel="noopener">WA</a>
+            <a
+              href="https://www.instagram.com/maive_officiel?igsh=bmk3ZGc3cWtjMWpu"
+              target="_blank"
+              rel="noopener"
+              >IG</a
+            ><a
+              href="https://www.tiktok.com/@maive__1?lang=fr&is_from_webapp=1&sender_device=mobile&sender_web_id=7609195699040732690"
+              target="_blank"
+              rel="noopener"
+              >TK</a
+            ><a href="#">FB</a
+            ><a href="https://wa.me/213549504680" target="_blank" rel="noopener"
+              >WA</a
+            >
           </div>
         </div>
         <div class="fc">
           <p class="fch">Contactez-nous</p>
           <ul>
-            <li><a href="https://wa.me/213549504680" target="_blank" rel="noopener">WhatsApp</a></li>
-            <li><a href="https://www.instagram.com/maive_officiel?igsh=bmk3ZGc3cWtjMWpu" target="_blank" rel="noopener">Instagram DM</a></li>
+            <li>
+              <a
+                href="https://wa.me/213549504680"
+                target="_blank"
+                rel="noopener"
+                >WhatsApp</a
+              >
+            </li>
+            <li>
+              <a
+                href="https://www.instagram.com/maive_officiel?igsh=bmk3ZGc3cWtjMWpu"
+                target="_blank"
+                rel="noopener"
+                >Instagram DM</a
+              >
+            </li>
             <li><a href="#">Facebook</a></li>
           </ul>
         </div>
@@ -2457,7 +2729,18 @@
             <li><a href="#">Guide des tailles</a></li>
             <li><a href="#">Entretien du cuir</a></li>
             <li><a href="#">Livraison</a></li>
-            <li><a href="login.html" style="opacity: 0.5; font-size: 9px; margin-top: 10px; display: block;">Maive Admin</a></li>
+            <li>
+              <a
+                href="login.html"
+                style="
+                  opacity: 0.5;
+                  font-size: 9px;
+                  margin-top: 10px;
+                  display: block;
+                "
+                >Maive Admin</a
+              >
+            </li>
           </ul>
         </div>
       </div>
@@ -2470,12 +2753,24 @@
     <!-- SEARCH OVERLAY -->
     <div id="searchOverlay">
       <button class="search-close" id="searchClose">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="32" height="32">
-          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          width="32"
+          height="32"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </button>
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Rechercher une pièce..." autofocus>
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Rechercher une pièce..."
+          autofocus
+        />
       </div>
       <div id="searchResults"></div>
     </div>
@@ -2485,72 +2780,186 @@
       <div class="filter-grp">
         <p class="filter-title">Prix (DZD)</p>
         <div class="filter-opt">
-          <label><input type="checkbox" data-type="price" value="0-30000"> Moins de 30.000</label>
-          <label><input type="checkbox" data-type="price" value="30000-50000"> 30.000 - 50.000</label>
-          <label><input type="checkbox" data-type="price" value="50000+"> Plus de 50.000</label>
+          <label
+            ><input type="checkbox" data-type="price" value="0-30000" /> Moins
+            de 30.000</label
+          >
+          <label
+            ><input type="checkbox" data-type="price" value="30000-50000" />
+            30.000 - 50.000</label
+          >
+          <label
+            ><input type="checkbox" data-type="price" value="50000+" /> Plus de
+            50.000</label
+          >
         </div>
       </div>
       <div class="filter-grp">
         <p class="filter-title">Couleur</p>
         <div class="filter-opt">
-          <label><input type="checkbox" data-type="color" value="Noir"> Noir</label>
-          <label><input type="checkbox" data-type="color" value="Camel"> Camel</label>
-          <label><input type="checkbox" data-type="color" value="Beige"> Beige</label>
-          <label><input type="checkbox" data-type="color" value="Crème"> Crème</label>
+          <label
+            ><input type="checkbox" data-type="color" value="Noir" />
+            Noir</label
+          >
+          <label
+            ><input type="checkbox" data-type="color" value="Camel" />
+            Camel</label
+          >
+          <label
+            ><input type="checkbox" data-type="color" value="Beige" />
+            Beige</label
+          >
+          <label
+            ><input type="checkbox" data-type="color" value="Crème" />
+            Crème</label
+          >
         </div>
       </div>
-      <button class="cart-checkout" id="applyFilters" style="margin-top:20px">Appliquer</button>
+      <button class="cart-checkout" id="applyFilters" style="margin-top: 20px">
+        Appliquer
+      </button>
+    </div>
+
+    <!-- ===== PRODUCT DETAILS MODAL ===== -->
+    <div
+      class="product-modal-overlay"
+      id="productModalOverlay"
+      onclick="closeProductModalOutside(event)"
+    >
+      <div class="product-modal">
+        <button class="product-modal-close" onclick="closeProductModal()">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path
+              d="M18 6L6 18M6 6l12 12"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <div class="product-modal-content">
+          <div class="product-modal-gallery">
+            <img id="pmImageBag" src="" alt="MAIVÉ Bag" />
+          </div>
+          <div class="product-modal-info">
+            <p class="pm-material" id="pmMaterial">Cuir d'exception</p>
+            <h2 class="pm-name" id="pmName">Nom du Produit</h2>
+            <p class="pm-price" id="pmPrice">DZD 0</p>
+            <div class="pm-swatches" id="pmSwatches"></div>
+            <p class="pm-swatch-name" id="pmSwatchName">Couleur</p>
+            <button class="pm-add-btn" id="pmAddBtn">Ajouter au Panier</button>
+            <div class="pm-desc">
+              <p>
+                Une pièce pensée pour sublimer l'essence de votre renaissance.
+                Les lignes épurées et les matériaux d'exception incarnent la
+                vision MAIVÉ.
+              </p>
+              <ul>
+                <li>Fabrication artisanale de précision</li>
+                <li>Finitions haut de gamme</li>
+                <li>Livraison express disponible</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ===== CHECKOUT MODAL ===== -->
     <div class="checkout-modal-overlay" id="checkoutOverlay">
       <div class="checkout-modal">
         <button class="checkout-close" onclick="closeCheckoutModal()">
-          <svg viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" fill="none">
+            <path
+              d="M18 6L6 18M6 6l12 12"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </button>
 
         <!-- Form View -->
         <div id="checkoutFormView">
           <div class="checkout-header">
             <h2 class="checkout-title">Finaliser la Commande</h2>
-            <p class="checkout-subtitle">Veuillez entrer vos informations de livraison.</p>
+            <p class="checkout-subtitle">
+              Veuillez entrer vos informations de livraison.
+            </p>
           </div>
           <form class="checkout-form" id="checkoutForm">
             <div class="checkout-row">
               <div class="checkout-group">
                 <label class="checkout-label">Prénom</label>
-                <input type="text" id="co-fname" class="checkout-input" required placeholder="Votre prénom">
+                <input
+                  type="text"
+                  id="co-fname"
+                  class="checkout-input"
+                  required
+                  placeholder="Votre prénom"
+                />
               </div>
               <div class="checkout-group">
                 <label class="checkout-label">Nom</label>
-                <input type="text" id="co-lname" class="checkout-input" required placeholder="Votre nom">
+                <input
+                  type="text"
+                  id="co-lname"
+                  class="checkout-input"
+                  required
+                  placeholder="Votre nom"
+                />
               </div>
             </div>
             <div class="checkout-group">
               <label class="checkout-label">Téléphone</label>
-              <input type="tel" id="co-phone" class="checkout-input" required placeholder="Ex: 0555 12 34 56">
+              <input
+                type="tel"
+                id="co-phone"
+                class="checkout-input"
+                required
+                placeholder="Ex: 0555 12 34 56"
+              />
             </div>
             <div class="checkout-group">
               <label class="checkout-label">Wilaya</label>
               <select id="co-wilaya" class="checkout-input" required>
-                <option value="" disabled selected>Sélectionnez votre Wilaya...</option>
+                <option value="" disabled selected>
+                  Sélectionnez votre Wilaya...
+                </option>
               </select>
             </div>
             <div class="checkout-group">
               <label class="checkout-label">Commune</label>
               <select id="co-commune" class="checkout-input" required disabled>
-                <option value="" disabled selected>Sélectionnez d'abord la Wilaya...</option>
+                <option value="" disabled selected>
+                  Sélectionnez d'abord la Wilaya...
+                </option>
               </select>
             </div>
             <div class="checkout-group">
               <label class="checkout-label">Adresse Complète</label>
-              <input type="text" id="co-address" class="checkout-input" required placeholder="Rue, Bâtiment, Code Postal...">
+              <input
+                type="text"
+                id="co-address"
+                class="checkout-input"
+                required
+                placeholder="Rue, Bâtiment, Code Postal..."
+              />
             </div>
             <div class="checkout-group">
               <label class="checkout-label">Notes (Optionnel)</label>
-              <input type="text" id="co-notes" class="checkout-input" placeholder="Message cadeau ou instruction speciale">
+              <input
+                type="text"
+                id="co-notes"
+                class="checkout-input"
+                placeholder="Message cadeau ou instruction speciale"
+              />
             </div>
-            <button type="submit" class="checkout-submit" id="checkoutSubmitBtn">
+            <button
+              type="submit"
+              class="checkout-submit"
+              id="checkoutSubmitBtn"
+            >
               <span class="checkout-spinner"></span>
               <span class="btn-text">Confirmer la Commande</span>
             </button>
@@ -2560,12 +2969,28 @@
         <!-- Success View -->
         <div class="checkout-success" id="checkoutSuccessView">
           <div class="success-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M20 6L9 17l-5-5" />
+            </svg>
           </div>
           <h2 class="success-title">Merci.</h2>
-          <p class="success-text">Votre création a été réservée. Notre conciergerie vous contactera sous peu pour finaliser la livraison.</p>
+          <p class="success-text">
+            Votre création a été réservée. Notre conciergerie vous contactera
+            sous peu pour finaliser la livraison.
+          </p>
           <div class="success-order" id="successOrderNumber">#MAV-XXXX</div>
-          <button class="checkout-submit" onclick="closeCheckoutModal()">Retourner à la boutique</button>
+          <button class="checkout-submit" onclick="closeCheckoutModal()">
+            Retourner à la boutique
+          </button>
         </div>
       </div>
     </div>
@@ -2575,9 +3000,12 @@
       // MAIVÉ E-COMMERCE - DYNAMIC ENGINE
       // ============================================
 
-      const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:') 
-        ? 'http://localhost:5000/api' 
-        : '/api';
+      const API_BASE =
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1" ||
+        window.location.protocol === "file:"
+          ? "http://localhost:5000/api"
+          : "/api";
 
       let productData = [];
       const lbar = document.getElementById("lbar"),
@@ -2757,34 +3185,37 @@
           if (sJson.success && sJson.data) {
             const s = sJson.data;
             console.log("Settings loaded:", s);
-            
+
             // Update Hero
-            const heroVideo = document.getElementById('heroVideo');
+            const heroVideo = document.getElementById("heroVideo");
             if (heroVideo && s.hero) {
-              const hSource = heroVideo.querySelector('source');
+              const hSource = heroVideo.querySelector("source");
               if (hSource) {
                 const videoUrl = s.hero.url || "videos/hero-video.mp4";
                 hSource.dataset.src = videoUrl;
                 hSource.src = videoUrl;
                 heroVideo.load();
-                heroVideo.classList.add('loaded'); // Force visible since it's the hero
+                heroVideo.classList.add("loaded"); // Force visible since it's the hero
                 console.log("Hero video source updated.");
               }
             }
-            
-            const hvt1 = document.getElementById('hvt1');
+
+            const hvt1 = document.getElementById("hvt1");
             if (hvt1 && s.hero?.title) {
               // Preserve the strong stylized title if it hasn't been deliberately changed
               if (s.hero.title !== "MAIVÉ — L’Atelier") {
                 hvt1.innerHTML = s.hero.title;
               }
             }
-            
+
             // Update Announcement (Marquee)
             if (s.announcement && s.announcement.isActive) {
-              const mq = document.getElementById('mq');
+              const mq = document.getElementById("mq");
               if (mq) {
-                mq.innerHTML = `<span class="mq-item">${s.announcement.text}</span><span class="mq-sep">✦</span>`.repeat(10);
+                mq.innerHTML =
+                  `<span class="mq-item">${s.announcement.text}</span><span class="mq-sep">✦</span>`.repeat(
+                    10,
+                  );
               }
             }
           }
@@ -2794,28 +3225,26 @@
           const pRes = await fetch(`${API_BASE}/products?limit=100`);
           const pJson = await pRes.json();
           if (pJson.success && pJson.data) {
-            productData = pJson.data.products.map(p => ({
+            productData = pJson.data.products.map((p) => ({
               id: p._id,
               name: p.name,
-              material: p.material || 'Cuir d\'exception',
+              material: p.material || "Cuir d'exception",
               price: p.basePrice,
-              category: p.category?.name || 'Collection',
-              tag: p.isNewArrival ? 'new' : (p.isFeatured ? 'excl' : null),
-              tagClass: p.isNewArrival ? 'tn' : 'te',
-              variants: p.variants.map(v => ({
+              category: p.category?.name || "Collection",
+              tag: p.isNewArrival ? "new" : p.isFeatured ? "excl" : null,
+              tagClass: p.isNewArrival ? "tn" : "te",
+              variants: p.variants.map((v) => ({
                 name: v.name,
-                hex: v.hexCode || '#b8986a',
+                hex: v.hexCode || "#b8986a",
                 image: v.images.bagImage,
-                modelImage: v.images.modelImage
-              }))
+                modelImage: v.images.modelImage,
+              })),
             }));
             console.log(`Loaded ${productData.length} products.`);
             renderProducts();
             updateCart();
           }
 
-
-          
           console.log("✨ Storefront Sync Complete.");
         } catch (e) {
           console.error("❌ Storefront Sync Error:", e);
@@ -2824,19 +3253,22 @@
         }
       }
 
-
-
       function renderProducts(filter = "all", customProducts = null) {
         const grid = document.getElementById("grid");
-        const filteredProducts = customProducts || (
-          filter === "all"
+        const filteredProducts =
+          customProducts ||
+          (filter === "all"
             ? productData
-            : productData.filter((p) => p.category === filter || p.category.toLowerCase() === filter.toLowerCase())
-        );
+            : productData.filter(
+                (p) =>
+                  p.category === filter ||
+                  p.category.toLowerCase() === filter.toLowerCase(),
+              ));
         document.getElementById("cnt").textContent =
           `${filteredProducts.length} Pièces`;
         if (filteredProducts.length === 0) {
-          grid.innerHTML = '<div style="grid-column: 1/-1; padding: 100px; text-align: center; font-family: Cormorant Garamond; font-size: 24px">Aucune pièce ne correspond à vos critères.</div>';
+          grid.innerHTML =
+            '<div style="grid-column: 1/-1; padding: 100px; text-align: center; font-family: Cormorant Garamond; font-size: 24px">Aucune pièce ne correspond à vos critères.</div>';
           return;
         }
         grid.innerHTML = filteredProducts
@@ -2852,15 +3284,12 @@
               )
               .join("");
             return `
-      <article class="card" data-cat="${product.category}" data-product-id="${product.id}">
+      <article class="card" data-cat="${product.category}" data-product-id="${product.id}" onclick="openProductModal('${product.id}')">
         ${tagHtml}
         <div class="card-img">
           <div class="ca"><img src="${defaultVariant.image}" alt="${product.name}" class="product-img-bag" loading="lazy" width="450" height="600"></div>
           <div class="cb"><img src="${defaultVariant.modelImage}" alt="${product.name} - Model" class="product-img-model" loading="lazy" width="450" height="600"></div>
           <div class="pill"><span class="pill-in">${product.category} →</span></div>
-          <button class="quick-add" onclick="quickAdd(event,'${product.id}')" aria-label="Ajouter au panier" title="Ajouter au panier">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>
-          </button>
         </div>
         <div class="ci">
           <p class="cmat">${product.material}</p>
@@ -2872,9 +3301,13 @@
     `;
           })
           .join("");
-        grid.querySelectorAll('.card').forEach(card => {
-          card.addEventListener('mouseenter', () => document.body.classList.add('ch'));
-          card.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+        grid.querySelectorAll(".card").forEach((card) => {
+          card.addEventListener("mouseenter", () =>
+            document.body.classList.add("ch"),
+          );
+          card.addEventListener("mouseleave", () =>
+            document.body.classList.remove("ch"),
+          );
         });
         initCardObserver();
       }
@@ -2890,17 +3323,77 @@
         card.querySelector(".product-img-bag").src = variant.image;
         card.querySelector(".product-img-model").src = variant.modelImage;
       }
-      function quickAdd(event, productId) {
-        event.stopPropagation();
-        const product = productData.find((p) => p.id === productId);
+      // Product Modal Logic
+      let currentModalProduct = null;
+      let currentModalVariantIndex = 0;
+
+      function openProductModal(productId) {
+        currentModalProduct = productData.find((p) => p.id === productId);
+        if (!currentModalProduct) return;
+
+        // Match variant index with the currently selected variant on the card
         const card = document.querySelector(`[data-product-id="${productId}"]`);
-        const activeVariantIndex = Array.from(
-          card.querySelectorAll(".sw"),
-        ).findIndex((sw) => sw.classList.contains("on"));
-        const variant =
-          product.variants[activeVariantIndex] || product.variants[0];
-        addToCart(product, variant);
+        const swatches = Array.from(card.querySelectorAll(".sw"));
+        currentModalVariantIndex =
+          swatches.findIndex((sw) => sw.classList.contains("on")) || 0;
+        if (currentModalVariantIndex === -1) currentModalVariantIndex = 0;
+
+        renderProductModal();
+        const modal = document.getElementById("productModalOverlay");
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
       }
+
+      function closeProductModal() {
+        const modal = document.getElementById("productModalOverlay");
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      function closeProductModalOutside(e) {
+        if (e.target === document.getElementById("productModalOverlay")) {
+          closeProductModal();
+        }
+      }
+
+      function renderProductModal() {
+        if (!currentModalProduct) return;
+        const p = currentModalProduct;
+        const v = p.variants[currentModalVariantIndex] || p.variants[0];
+
+        document.getElementById("pmMaterial").innerText = p.material;
+        document.getElementById("pmName").innerText = p.name;
+        document.getElementById("pmPrice").innerText =
+          `DZD ${p.price.toLocaleString()}`;
+        document.getElementById("pmImageBag").src = v.image;
+        document.getElementById("pmSwatchName").innerText = v.name;
+
+        // Render modal swatches
+        const swatchesContainer = document.getElementById("pmSwatches");
+        swatchesContainer.innerHTML = p.variants
+          .map(
+            (variant, i) => `
+          <div class="sw ${i === currentModalVariantIndex ? "on" : ""}" style="background:${variant.hex}" title="${variant.name}" onclick="changeModalVariant(event, ${i})"></div>
+        `,
+          )
+          .join("");
+      }
+
+      function changeModalVariant(event, index) {
+        event.stopPropagation();
+        currentModalVariantIndex = index;
+        renderProductModal();
+      }
+
+      // Hook up Add To Cart button
+      document.getElementById("pmAddBtn")?.addEventListener("click", () => {
+        if (!currentModalProduct) return;
+        const v =
+          currentModalProduct.variants[currentModalVariantIndex] ||
+          currentModalProduct.variants[0];
+        addToCart(currentModalProduct, v);
+        closeProductModal();
+      });
       document.querySelectorAll(".fb[data-filter]").forEach((btn) => {
         btn.addEventListener("click", () => {
           document
@@ -2990,41 +3483,71 @@
           .to("#cvt1", { opacity: 1, y: 0, duration: 1 }, "<.15")
           .to("#cvs1", { opacity: 1, y: 0, duration: 0.8 }, "<.2")
           .to("#cvcta", { opacity: 1, y: 0, duration: 0.7 }, "<.15");
-        gsap.to('#collectionVideo',{yPercent:-6,ease:'none',scrollTrigger:{trigger:'#artisanat',start:'top bottom',end:'bottom top',scrub:1.5}});
-  ScrollTrigger.create({trigger:'#stmt',start:'top 70%',once:true,onEnter:()=>gsap.to('#sqI',{y:'0%',duration:1.1,ease:'power3.out'})});
-  ScrollTrigger.create({trigger:'#cs',start:'top 80%',once:true,onEnter:()=>{gsap.to('#csT',{y:'0%',duration:.9,ease:'power3.out'});gsap.to('#csp',{opacity:1,duration:.8,delay:.2});}});
+        gsap.to("#collectionVideo", {
+          yPercent: -6,
+          ease: "none",
+          scrollTrigger: {
+            trigger: "#artisanat",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.5,
+          },
+        });
+        ScrollTrigger.create({
+          trigger: "#stmt",
+          start: "top 70%",
+          once: true,
+          onEnter: () =>
+            gsap.to("#sqI", { y: "0%", duration: 1.1, ease: "power3.out" }),
+        });
+        ScrollTrigger.create({
+          trigger: "#cs",
+          start: "top 80%",
+          once: true,
+          onEnter: () => {
+            gsap.to("#csT", { y: "0%", duration: 0.9, ease: "power3.out" });
+            gsap.to("#csp", { opacity: 1, duration: 0.8, delay: 0.2 });
+          },
+        });
 
-  // Video Lazy Loading Observer
-  const videos=document.querySelectorAll('video');
-  if('IntersectionObserver' in window){
-    const videoObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const video = entry.target;
-          const source = video.querySelector('source');
-          if (source && source.dataset.src) {
-            // Only set src if not already set
-            if (!source.src || source.src.includes('undefined')) {
-              source.src = source.dataset.src;
-              video.load();
-            }
-            
-            // If already ready or playing, add loaded immediately
-            if (video.readyState >= 2) {
-              video.classList.add('loaded');
-            } else {
-              video.addEventListener('loadeddata', () => {
-                video.classList.add('loaded');
-              }, { once: true });
-            }
-            observer.unobserve(video);
-          }
+        // Video Lazy Loading Observer
+        const videos = document.querySelectorAll("video");
+        if ("IntersectionObserver" in window) {
+          const videoObserver = new IntersectionObserver(
+            (entries, observer) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  const video = entry.target;
+                  const source = video.querySelector("source");
+                  if (source && source.dataset.src) {
+                    // Only set src if not already set
+                    if (!source.src || source.src.includes("undefined")) {
+                      source.src = source.dataset.src;
+                      video.load();
+                    }
+
+                    // If already ready or playing, add loaded immediately
+                    if (video.readyState >= 2) {
+                      video.classList.add("loaded");
+                    } else {
+                      video.addEventListener(
+                        "loadeddata",
+                        () => {
+                          video.classList.add("loaded");
+                        },
+                        { once: true },
+                      );
+                    }
+                    observer.unobserve(video);
+                  }
+                }
+              });
+            },
+            { threshold: 0.1, rootMargin: "200px" },
+          ); // Load slightly before it hits the viewport
+          videos.forEach((v) => videoObserver.observe(v));
         }
-      });
-    }, { threshold: 0.1, rootMargin: '200px' }); // Load slightly before it hits the viewport
-    videos.forEach(v => videoObserver.observe(v));
-  }
-}
+      }
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
           e.preventDefault();
@@ -3033,15 +3556,17 @@
         });
       });
 
-/* ===== CHECKOUT LOGIC ===== */
+      /* ===== CHECKOUT LOGIC ===== */
       const checkoutOverlay = document.getElementById("checkoutOverlay");
       const checkoutForm = document.getElementById("checkoutForm");
       const checkoutFormView = document.getElementById("checkoutFormView");
-      const checkoutSuccessView = document.getElementById("checkoutSuccessView");
+      const checkoutSuccessView = document.getElementById(
+        "checkoutSuccessView",
+      );
       const checkoutSubmitBtn = document.getElementById("checkoutSubmitBtn");
-      
+
       // Open / Close Modal
-      window.checkout = function() {
+      window.checkout = function () {
         if (cart.length === 0) {
           alert("Votre panier est vide.");
           return;
@@ -3052,41 +3577,44 @@
         checkoutSuccessView.style.display = "none";
         checkoutSuccessView.classList.remove("active");
         checkoutForm.reset();
-        
+
         checkoutOverlay.classList.add("active");
         document.body.style.overflow = "hidden";
       };
 
-      window.closeCheckoutModal = function() {
+      window.closeCheckoutModal = function () {
         checkoutOverlay.classList.remove("active");
         document.body.style.overflow = "";
         // If they closed from success, clear the cart to finish
-        if(checkoutSuccessView.classList.contains("active")) {
-           cart = [];
-           updateCart();
+        if (checkoutSuccessView.classList.contains("active")) {
+          cart = [];
+          updateCart();
         }
       };
 
       // Populate Wilayas & Communes
-      const coWilaya = document.getElementById('co-wilaya');
-      const coCommune = document.getElementById('co-commune');
+      const coWilaya = document.getElementById("co-wilaya");
+      const coCommune = document.getElementById("co-commune");
 
-      if (typeof algeriaData !== 'undefined') {
-        const sortedWilayas = Object.keys(algeriaData).sort((a, b) => Number(a) - Number(b));
-        sortedWilayas.forEach(id => {
+      if (typeof algeriaData !== "undefined") {
+        const sortedWilayas = Object.keys(algeriaData).sort(
+          (a, b) => Number(a) - Number(b),
+        );
+        sortedWilayas.forEach((id) => {
           const w = algeriaData[id];
-          const option = document.createElement('option');
+          const option = document.createElement("option");
           option.value = id;
-          option.text = id.padStart(2, '0') + ' - ' + w.name;
+          option.text = id.padStart(2, "0") + " - " + w.name;
           coWilaya.appendChild(option);
         });
 
-        coWilaya.addEventListener('change', (e) => {
+        coWilaya.addEventListener("change", (e) => {
           const wId = e.target.value;
-          coCommune.innerHTML = '<option value="" disabled selected>Sélectionnez votre Commune...</option>';
+          coCommune.innerHTML =
+            '<option value="" disabled selected>Sélectionnez votre Commune...</option>';
           if (wId && algeriaData[wId]) {
-            algeriaData[wId].communes.forEach(c => {
-              const option = document.createElement('option');
+            algeriaData[wId].communes.forEach((c) => {
+              const option = document.createElement("option");
               option.value = c;
               option.text = c;
               coCommune.appendChild(option);
@@ -3101,70 +3629,82 @@
       // Handle Submit
       checkoutForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        
+
         // Disable button & show spinner
         checkoutSubmitBtn.classList.add("loading");
-        checkoutSubmitBtn.querySelector('.btn-text').innerText = "Traitement...";
+        checkoutSubmitBtn.querySelector(".btn-text").innerText =
+          "Traitement...";
 
-          const wilayaText = coWilaya.options[coWilaya.selectedIndex]?.text || '';
-          
-          const formData = {
-            customerInfo: {
-              firstName: document.getElementById('co-fname').value,
-              lastName: document.getElementById('co-lname').value,
-              phone: document.getElementById('co-phone').value,
-              email: "guest@maive.dz"
-            },
-            shippingAddress: {
-              firstName: document.getElementById('co-fname').value,
-              lastName: document.getElementById('co-lname').value,
-              phone: document.getElementById('co-phone').value,
-              email: "guest@maive.dz",
-              wilaya: wilayaText,
-              city: document.getElementById('co-commune').value,
-              address: document.getElementById('co-address').value
-            },
-          shippingMethod: 'standard',
-          paymentMethod: 'cash_on_delivery',
+        const wilayaText = coWilaya.options[coWilaya.selectedIndex]?.text || "";
+
+        const formData = {
+          customerInfo: {
+            firstName: document.getElementById("co-fname").value,
+            lastName: document.getElementById("co-lname").value,
+            phone: document.getElementById("co-phone").value,
+            email: "guest@maive.dz",
+          },
+          shippingAddress: {
+            firstName: document.getElementById("co-fname").value,
+            lastName: document.getElementById("co-lname").value,
+            phone: document.getElementById("co-phone").value,
+            email: "guest@maive.dz",
+            wilaya: wilayaText,
+            city: document.getElementById("co-commune").value,
+            address: document.getElementById("co-address").value,
+          },
+          shippingMethod: "standard",
+          paymentMethod: "cash_on_delivery",
           isGift: false,
-          items: cart.map(item => ({
-             product: item.productId,
-             name: item.name,
-             price: item.price,
-             quantity: item.quantity,
-             image: item.image,
-             variant: {
-                 colorName: item.variant || 'Standard'
-             }
+          items: cart.map((item) => ({
+            product: item.productId,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image,
+            variant: {
+              colorName: item.variant || "Standard",
+            },
           })),
-          total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
-          subtotal: cart.reduce((sum, item) => sum + item.price * item.quantity, 0)
+          total: cart.reduce(
+            (sum, item) => sum + item.price * item.quantity,
+            0,
+          ),
+          subtotal: cart.reduce(
+            (sum, item) => sum + item.price * item.quantity,
+            0,
+          ),
         };
 
         try {
           // Send request to the correct checkout endpoint
           const res = await fetch(`${API_BASE}/orders/checkout`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
           });
           const json = await res.json();
-          
+
           if (json.success) {
             // Show Success View
-            document.getElementById('successOrderNumber').innerText = `#${json.data.order.orderNumber}`;
+            document.getElementById("successOrderNumber").innerText =
+              `#${json.data.order.orderNumber}`;
             checkoutFormView.style.display = "none";
             checkoutSuccessView.style.display = "block";
             checkoutSuccessView.classList.add("active");
           } else {
             console.error("Order Failed:", json);
             if (json.message && json.message.includes("Product not found")) {
-                alert("Votre panier contient d'anciens articles qui ne sont plus disponibles. Le panier va être vidé.");
-                cart = [];
-                updateCart();
-                closeCheckoutModal();
+              alert(
+                "Votre panier contient d'anciens articles qui ne sont plus disponibles. Le panier va être vidé.",
+              );
+              cart = [];
+              updateCart();
+              closeCheckoutModal();
             } else {
-                alert("Erreur lors de la création de la commande: " + json.message);
+              alert(
+                "Erreur lors de la création de la commande: " + json.message,
+              );
             }
           }
         } catch (error) {
@@ -3172,7 +3712,8 @@
           alert("Erreur réseau. Veuillez réessayer.");
         } finally {
           checkoutSubmitBtn.classList.remove("loading");
-          checkoutSubmitBtn.querySelector('.btn-text').innerText = "Confirmer la Commande";
+          checkoutSubmitBtn.querySelector(".btn-text").innerText =
+            "Confirmer la Commande";
         }
       });
       // SEARCH LOGIC
@@ -3219,7 +3760,7 @@
       });
 
       // FILTER SIDEBAR LOGIC
-      const filterBtn = document.querySelector('.cn-s button:first-child');
+      const filterBtn = document.querySelector(".cn-s button:first-child");
       const filterSidebar = document.getElementById("filterSidebar");
       const applyFiltersBtn = document.getElementById("applyFilters");
 
@@ -3230,28 +3771,36 @@
         filterSidebar.classList.remove("open");
       }
       filterBtn.addEventListener("click", openFilters);
-      document.addEventListener('click', (e) => {
-        if(!filterSidebar.contains(e.target) && !filterBtn.contains(e.target)) closeFilters();
+      document.addEventListener("click", (e) => {
+        if (!filterSidebar.contains(e.target) && !filterBtn.contains(e.target))
+          closeFilters();
       });
 
       applyFiltersBtn.addEventListener("click", () => {
-        const selectedPrices = Array.from(document.querySelectorAll('input[data-type="price"]:checked')).map(i => i.value);
-        const selectedColors = Array.from(document.querySelectorAll('input[data-type="color"]:checked')).map(i => i.value);
-        
-        const filtered = productData.filter(p => {
+        const selectedPrices = Array.from(
+          document.querySelectorAll('input[data-type="price"]:checked'),
+        ).map((i) => i.value);
+        const selectedColors = Array.from(
+          document.querySelectorAll('input[data-type="color"]:checked'),
+        ).map((i) => i.value);
+
+        const filtered = productData.filter((p) => {
           let priceMatch = selectedPrices.length === 0;
           if (selectedPrices.length > 0) {
-            priceMatch = selectedPrices.some(range => {
-               if(range === '0-30000') return p.price < 30000;
-               if(range === '30000-50000') return p.price >= 30000 && p.price <= 50000;
-               if(range === '50000+') return p.price > 50000;
-               return false;
+            priceMatch = selectedPrices.some((range) => {
+              if (range === "0-30000") return p.price < 30000;
+              if (range === "30000-50000")
+                return p.price >= 30000 && p.price <= 50000;
+              if (range === "50000+") return p.price > 50000;
+              return false;
             });
           }
 
           let colorMatch = selectedColors.length === 0;
           if (selectedColors.length > 0) {
-            colorMatch = p.variants.some(v => selectedColors.includes(v.name));
+            colorMatch = p.variants.some((v) =>
+              selectedColors.includes(v.name),
+            );
           }
 
           return priceMatch && colorMatch;
@@ -3259,15 +3808,18 @@
 
         renderFilteredResults(filtered);
         closeFilters();
-        document.getElementById("collection").scrollIntoView({ behavior: "smooth" });
+        document
+          .getElementById("collection")
+          .scrollIntoView({ behavior: "smooth" });
       });
 
       function renderFilteredResults(products) {
         renderProducts(null, products);
         closeFilters();
-        document.getElementById("collection").scrollIntoView({ behavior: "smooth" });
+        document
+          .getElementById("collection")
+          .scrollIntoView({ behavior: "smooth" });
       }
-
     </script>
   </body>
 </html>
