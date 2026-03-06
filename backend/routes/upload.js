@@ -81,7 +81,7 @@ router.post('/image', authenticate, requireAdmin, upload.single('image'), async 
       });
     }
     
-    const baseUrl = req.protocol + '://' + req.get('host');
+    const baseUrl = process.env.BACKEND_URL || (req.protocol + '://' + req.get('host'));
     const url = isCloudinaryConfigured ? req.file.path : `${baseUrl}/uploads/${req.file.filename}`;
 
     res.json({
@@ -154,7 +154,7 @@ router.get('/', authenticate, requireAdmin, async (req, res) => {
       }
       
       const files = fs.readdirSync(uploadDir);
-      const baseUrl = req.protocol + '://' + req.get('host');
+      const baseUrl = process.env.BACKEND_URL || (req.protocol + '://' + req.get('host'));
       const media = files.filter(f => !f.startsWith('.')).map(file => {
         try {
           const stats = fs.statSync(path.join(uploadDir, file));

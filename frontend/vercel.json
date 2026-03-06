@@ -3,6 +3,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://maive.onrender.com/api/:path*"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "https://maive.onrender.com/uploads/:path*"
     }
   ],
   "cleanUrls": true
