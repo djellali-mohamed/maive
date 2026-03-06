@@ -55,7 +55,7 @@ app.use(helmet({
 
 // CORS Configuration
 app.use(cors({
-  origin: true, // Allow all origins (helps with file:// and local testing)
+  origin: ["https://maive.onrender.com", "http://localhost:5000"],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
