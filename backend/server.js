@@ -47,15 +47,20 @@ app.use(helmet({
       imgSrc: ["'self'", "data:", "https:", "blob:"],
       scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com", "https://unpkg.com"],
       scriptSrcAttr: ["'unsafe-inline'"],
-      connectSrc: ["'self'", "https:", "http://localhost:5000"],
+      connectSrc: ["'self'", "https:", "http://localhost:5000", "https://maive.onrender.com"],
       mediaSrc: ["'self'", "https://video.wixstatic.com", "https:", "blob:"],
     },
   },
+  crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
 // CORS Configuration
 app.use(cors({
-  origin: ["https://maive.onrender.com", "http://localhost:5000"],
+  origin: [
+    "https://maive.onrender.com", 
+    "https://maive.vercel.app",
+    "http://localhost:5000"
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
