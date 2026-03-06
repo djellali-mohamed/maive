@@ -72,17 +72,33 @@ const upload = multer({
 });
 
 // Upload single image
-router.post('/image', authenticate, requireAdmin, upload.single('image'), async (req, res) => {
+router.post('/image', authenticate, requireAdmin, (req, res, next) => {
+  upload.single('image')(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      console.error('Multer Error:', err);
+      return res.status(400).json({ success: false, message: `Multer error: ${err.message}` });
+    } else if (err) {
+      console.error('Upload Error:', err);
+      return res.status(400).json({ success: false, message: err.message });
+    }
+    next();
+  });
+}, async (req, res) => {
   try {
     if (!req.file) {
+      console.log('Upload attempt with no file');
       return res.status(400).json({
         success: false,
         message: 'No image provided'
       });
     }
     
+    console.log('File received:', req.file.filename, req.file.mimetype);
+    
     const baseUrl = process.env.BACKEND_URL || (req.protocol + '://' + req.get('host'));
     const url = isCloudinaryConfigured ? req.file.path : `${baseUrl}/uploads/${req.file.filename}`;
+    
+    console.log('Upload success. URL:', url);
 
     res.json({
       success: true,
@@ -94,9 +110,11 @@ router.post('/image', authenticate, requireAdmin, upload.single('image'), async 
       }
     });
   } catch (error) {
+    console.error('Detailed Upload Route Error:', error);
     res.status(500).json({
       success: false,
-      message: 'Error uploading image'
+      message: 'Error uploading image',
+      error: error.message
     });
   }
 });
