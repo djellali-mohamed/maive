@@ -152,4 +152,28 @@ router.delete('/users/:id', authenticate, requireSuperAdmin, async (req, res) =>
   }
 });
 
+// Maintenance: Clear transactional data (superadmin only)
+router.post('/maintenance/clear-data', authenticate, requireSuperAdmin, async (req, res) => {
+  try {
+    const Order = require('../models/Order');
+    const Cart = require('../models/Cart');
+    
+    const orderCount = await Order.countDocuments();
+    const cartCount = await Cart.countDocuments();
+    
+    await Order.deleteMany({});
+    await Cart.deleteMany({});
+    
+    res.json({
+      success: true,
+      message: `Successfully deleted ${orderCount} orders and ${cartCount} carts.`
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error clearing data'
+    });
+  }
+});
+
 module.exports = router;
