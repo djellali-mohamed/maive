@@ -12,6 +12,8 @@ const Category = require('../models/Category');
 const Product = require('../models/Product');
 const Settings = require('../models/Settings');
 const Lookbook = require('../models/Lookbook');
+const Order = require('../models/Order');
+const Cart = require('../models/Cart');
 
 const seedData = async () => {
   try {
@@ -26,7 +28,9 @@ const seedData = async () => {
     await Product.deleteMany({});
     await Settings.deleteMany({});
     await Lookbook.deleteMany({});
-    console.log('🗑️  Cleared existing data');
+    await Order.deleteMany({});
+    await Cart.deleteMany({});
+    console.log('🗑️  Cleared existing data (including orders and carts)');
     
     // Create Super Admin
     const admin = await User.create({
